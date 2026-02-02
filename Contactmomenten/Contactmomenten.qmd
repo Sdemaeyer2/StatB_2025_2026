@@ -4,70 +4,6 @@ title: "Contactmomenten"
 
 Voor dit vak zijn er 8 contactmomenten gepland.
 
-Hieronder vind je een overzicht van de verschillende contactmomenten en
-welke thema's aan bod zullen komen.
-
-+------------+--------------+------------+--------------+----------------------------------+
-| Cont       | Datum        | Uur        | Lokaal       | Onderwerp                        |
-| act-moment |              |            |              |                                  |
-+============+==============+============+==============+==================================+
-| [C1](      | 19 /02/2025  | 18u30 -    | Plenair:     | Van onderzoeksvraag naar methode |
-| C1/C1.qmd) |              | 22u        | S.R.008      |                                  |
-|            |              |            |              | t-test                           |
-|            |              |            | Computer     |                                  |
-|            |              |            | labs: S.N.   |                                  |
-|            |              |            | 202 en S.N.  |                                  |
-|            |              |            | 302          |                                  |
-+------------+--------------+------------+--------------+----------------------------------+
-| [C2](      | 05 /03/2025  | 17u - 19u  | Plenair:     | ANOVA                            |
-| C2/C2.qmd) |              |            | S.R.008      |                                  |
-|            |              |            |              | Kruistabel                       |
-|            |              |            | Computer     |                                  |
-|            |              |            | labs: S.N.   |                                  |
-|            |              |            | 202 en S.N.  |                                  |
-|            |              |            | 302          |                                  |
-+------------+--------------+------------+--------------+----------------------------------+
-| [C3](      | 19 /03/2025  | 16u - 18u  | Plenair:     | Covariantie en correlatie        |
-| C3/C3.qmd) |              |            | S.R.008      |                                  |
-|            |              |            |              | Bivariate regressie              |
-|            |              |            | Computer     |                                  |
-|            |              |            | labs: S.N.   |                                  |
-|            |              |            | 102 en S.N.  |                                  |
-|            |              |            | 202          |                                  |
-+------------+--------------+------------+--------------+----------------------------------+
-| [C4](      | 26 /03/2025  | 19u30 -    | Plenair:     | Assumpties bij regressie         |
-| C4/C4.qmd) |              | 22u        | S.R.008      |                                  |
-|            |              |            |              | Meervoudige regressie            |
-|            |              |            | Computer     |                                  |
-|            |              |            | labs: S.N.   |                                  |
-|            |              |            | 202 en S.N.  |                                  |
-|            |              |            | 302          |                                  |
-+------------+--------------+------------+--------------+----------------------------------+
-| [C5](      | 23 /04/2025  | 17u - 19u  | Plenair:     | Regressie met dummyvariabelen en |
-| C5/C5.qmd) |              |            | S.R.008      | interacties                      |
-|            |              |            |              |                                  |
-|            |              |            | Computer     |                                  |
-|            |              |            | labs: S.N.   |                                  |
-|            |              |            | 202 en S.N.  |                                  |
-|            |              |            | 302          |                                  |
-+------------+--------------+------------+--------------+----------------------------------+
-| [C6](      | 07 /05/2025  | 19u30 -    | Plenair:     | Regressie met dummyvariabelen en |
-| C6/C6.qmd) |              | 21u30      | S.R.008      | interacties                      |
-|            |              |            |              |                                  |
-|            |              |            | Computer     |                                  |
-|            |              |            | labs: S.N.   |                                  |
-|            |              |            | 202 en S.N.  |                                  |
-|            |              |            | 302          |                                  |
-+------------+--------------+------------+--------------+----------------------------------+
-| [C7](      | 21 /05/2025  | 18u -      | Plenair:     | Oefenexamen                      |
-| C7/C7.qmd) |              | 21u30      | S.R.008      |                                  |
-|            |              |            |              |                                  |
-|            |              |            | Computer     |                                  |
-|            |              |            | labs: S.N.   |                                  |
-|            |              |            | 202 en S.N.  |                                  |
-|            |              |            | 302          |                                  |
-+------------+--------------+------------+--------------+----------------------------------+
-
 ::: callout-important
 Om het maximale te halen uit deze contactmomenten kom je best goed
 voorbereid naar de les!
@@ -82,3 +18,78 @@ computerlokalen. Het geeft je de kans om vertrouwd te raken met `R` en
 kan werken aan een efficiënte workflow en je hebt de mogelijkheid om
 gerichte vragen te stellen aan de docenten.
 :::
+
+Hieronder vind je een overzicht van de verschillende contactmomenten en
+welke thema's aan bod zullen komen.
+
++------------+--------------+------------+--------------+----------------------------------+
+| Cont       | Datum        | Uur        | Lokaal       | Onderwerp                        |
+| act-moment |              |            |              |                                  |
++============+==============+============+==============+==================================+
+| [C1](      | 11/02/2026   | 18u -      | Plenair:     | Van onderzoeksvraag naar methode |
+| C1/C1.qmd) |              | 21u        | S.R.008      |                                  |
+|            |              |            |              | t-test                           |
+|            |              |            | Computer     |                                  |
+|            |              |            | labs: S.N.   |                                  |
+|            |              |            | 202 en S.N.  |                                  |
+|            |              |            | 302          |                                  |
++------------+--------------+------------+--------------+----------------------------------+
+| [C2](      | 18/02/2026   | 17u - 19u  | Plenair:     | ANOVA                            |
+| C2/C2.qmd) |              |            | S.R.008      |                                  |
+|            |              |            |              | Kruistabel                       |
+|            |              |            | Computer     |                                  |
+|            |              |            | labs: S.N.   |                                  |
+|            |              |            | 202 en S.N.  |                                  |
+|            |              |            | 302          |                                  |
++------------+--------------+------------+--------------+----------------------------------+
+| [C3](      | 25/02/2026   | 17u - 19u  | Plenair:     | Covariantie en correlatie        |
+| C3/C3.qmd) |              |            | S.R.008      |                                  |
+|            |              |            |              | Bivariate regressie              |
+|            |              |            | Computer     |                                  |
+|            |              |            | labs: S.N.   |                                  |
+|            |              |            | 102 en S.N.  |                                  |
+|            |              |            | 202          |                                  |
++------------+--------------+------------+--------------+----------------------------------+
+| [C4](      | 11/03/2026   | 17u -      | Plenair:     | Assumpties bij regressie         |
+| C4/C4.qmd) |              | 19u        | S.R.008      |                                  |
+|            |              |            |              | Meervoudige regressie            |
+|            |              |            | Computer     |                                  |
+|            |              |            | labs: S.N.   |                                  |
+|            |              |            | 202 en S.N.  |                                  |
+|            |              |            | 302          |                                  |
++------------+--------------+------------+--------------+----------------------------------+
+| [C5](      | 01/04/2026   | 17u - 19u  | Plenair:     | Regressie met dummyvariabelen en |
+| C5/C5.qmd) |              |            | S.R.008      | interacties                      |
+|            |              |            |              |                                  |
+|            |              |            | Computer     |                                  |
+|            |              |            | labs: S.N.   |                                  |
+|            |              |            | 202 en S.N.  |                                  |
+|            |              |            | 302          |                                  |
++------------+--------------+------------+--------------+----------------------------------+
+| [C6](      | 22/04/2026   | 17u -      | Plenair:     | Regressie met dummyvariabelen en |
+| C6/C6.qmd) |              | 19u        | S.R.008      | interacties                      |
+|            |              |            |              |                                  |
+|            |              |            | Computer     |                                  |
+|            |              |            | labs: S.N.   |                                  |
+|            |              |            | 202 en S.N.  |                                  |
+|            |              |            | 302          |                                  |
++------------+--------------+------------+--------------+----------------------------------+
+| [C7](      | 29/04/2026   | 17u -      | Plenair:     | Oefensessie                      |
+| C7/C7.qmd) |              | 19u        | S.R.008      |                                  |
+|            |              |            |              |                                  |
+|            |              |            | Computer     |                                  |
+|            |              |            | labs: S.N.   |                                  |
+|            |              |            | 202 en S.N.  |                                  |
+|            |              |            | 302          |                                  |
++------------+--------------+------------+--------------+----------------------------------+
+| C8         | 20/05/2026   | 17u -      | Plenair:     | Oefensessie                      |
+|            |              | 19u        | S.R.008      |                                  |
+|            |              |            |              |                                  |
+|            |              |            | Computer     |                                  |
+|            |              |            | labs: S.N.   |                                  |
+|            |              |            | 202 en S.N.  |                                  |
+|            |              |            | 302          |                                  |
++------------+--------------+------------+--------------+----------------------------------+
+
+
+
