@@ -350,7 +350,7 @@
     "href": "studiewijzer.html",
     "title": "Studiewijzer",
     "section": "",
-    "text": "Inhoud\nDeze module wil een inleiding geven tot de gangbare klassieke bivariate en multivariate technieken van statistische analyse binnen het onderwijskundig onderzoek. De module is vooral op de praktijk afgestemd. Dit impliceert dat er geen aandacht wordt besteed aan streng wiskundige bewijzen, maar zoveel mogelijk praktische problemen worden behandeld. \nEerst staan we stil bij hoe we een kwantitatieve onderzoeksvraag kunnen vertalen in een formeel analysemodel. Op basis van dit analysemodel kunnen we dan de meest gepaste analysetechniek selecteren. Daarna leren we verschillende bivariate en multivariate analysetechnieken uitvoeren in RStudio om analysemodellen te testen, schatten en interpreteren. \n\n\nDoelstellingen\nWat wordt je verwacht te kunnen na het volgen van dit opleidingsonderdeel?\nAlgemeen: \nJe bent in staat om zelf eenvoudige onderzoeksvragen over niet-causale en causale verbanden tussen één of meerdere kenmerken, statistisch te onderzoeken. Ook kan je wetenschappelijke publicaties waarin gebruik gemaakt wordt van kruistabellen, correlaties, t-testen, ANOVA en regressieanalyse (al dan niet met dummy-variabelen en interacties) begrijpen en interpreteren. \n \nMeer specifiek:  \nJe kan een bivariate of multivariate kwantitatieve analyse uitvoeren. \nHiertoe onderscheiden we de volgende deelvaardigheden: \n- je kan de juiste techniek associëren bij een bepaald analysemodel; \n- je kan een t-test uitvoeren, interpreteren en rapporteren; \n- je kan een onderzoek a.d.h.v. kruistabellen uitvoeren, interpreteren en rapporteren; \n- je kan een correlatieonderzoek uitvoeren, interpreteren en rapporteren; \n- je kan een ANOVA uitvoeren, interpreteren en rapporteren; \n- je kan een bivariate en meervoudige regressieanalyse uitvoeren, interpreteren en rapporteren; \n- je kan regressieanalyse met dummy-variabelen en interactievariabelen uitvoeren, interpreteren en rapporteren; \n- je kan voor elk van deze technieken de assumpties nagaan. \n\n\nLeermateriaal\nHet boek ‘Bivariate en multivariate statistiek met R. Een openleerpakket.’ De Maeyer, Coertjens en Ardies (2012) vormt het studiemateriaal voor dit opleidingsonderdeel. Dit boek is verkrijgbaar bij Acco. We raden je aan om telkens voor de les het hoofdstuk (of de hoofdstukken) voor die les door te nemen. \nNaast dit verplichte cursusmateriaal zijn er ook zelfstudieopdrachten (ZSO’s) op het Studentenportaal terug te vinden. Deze ZSO’s zijn telkens oefeningen waarin de aangereikte leerstof moet worden toegepast op reële datasets. Ook de respons op deze oefeningen is beschikbaar op het Studentenportaal. \nVoor dit opleidingsonderdeel maken we gebruik van de softwarepakketten R en RStudio. Deze zijn gratis te downloaden van www.r-project.org en www.posit.co en kunnen op de courante besturingssystemen geïnstalleerd worden. Studenten die nog niet vertrouwd zijn met het werken met R kunnen best eerst het boek ‘Univariate statistiek voor de menswetenschappen. Een openleerpakket in R’ van De Maeyer, van Daal en Vandervieren doornemen. Dit boek is o.a. verkrijgbaar bij Acco. \n\n\nSchematisch overzicht\nVoor dit vak zijn 7 contactmomenten voorzien. Om meerwaarde te halen uit de contactmomenten dien je op voorhand de relevante hoofdstukken uit het OLP door te nemen en de bijhorende videolessen te bekijken.  \n\n\nEvaluatie\nDe evaluatie van statistiek B bestaat uit een schriftelijk PC-examen dat in twee delen is opgesplitst: \n\neen gesloten boek gedeelte waarin naar kennis en inzicht gepeild wordt (70% van de punten); \n\n\n\neen open boek gedeelte dat focust op je vermogen om analyses uit te voeren in RStudio (30% van de punten).  \n\nJe moet minimaal de helft halen op het gesloten deel om te kunnen slagen voor Statistiek B. Anders bedraagt de score voor Statistiek B maximaal 8/20.  \n\n\nOnderwijsteam\nHet onderwijsteam voor dit opleidingsonderdeel bestaat uit Sven De Maeyer en Sofie Vermeiren. Heb je vragen over “Statistiek B” praktisch of inhoudelijk van aard? Dan stel je deze steeds eerst via het discussieforum op de het Studentenportaal. Dit zal wekelijks worden nagekeken en opgevolgd.  \nSven.Demaeyer@uantwerpen.be \nSofie.Vermeiren@uantwerpen.be",
+    "text": "Inhoud\nDeze module wil een inleiding geven tot de gangbare klassieke bivariate en multivariate technieken van statistische analyse binnen het onderwijskundig onderzoek. De module is vooral op de praktijk afgestemd. Dit impliceert dat er geen aandacht wordt besteed aan streng wiskundige bewijzen, maar zoveel mogelijk praktische problemen worden behandeld. \nEerst staan we stil bij hoe we een kwantitatieve onderzoeksvraag kunnen vertalen in een formeel analysemodel. Op basis van dit analysemodel kunnen we dan de meest gepaste analysetechniek selecteren. Daarna leren we verschillende bivariate en multivariate analysetechnieken uitvoeren in RStudio om analysemodellen te testen, schatten en interpreteren. \n\n\nDoelstellingen\nWat wordt je verwacht te kunnen na het volgen van dit opleidingsonderdeel?\nAlgemeen: \nJe bent in staat om zelf eenvoudige onderzoeksvragen over niet-causale en causale verbanden tussen één of meerdere kenmerken, statistisch te onderzoeken. Ook kan je wetenschappelijke publicaties waarin gebruik gemaakt wordt van kruistabellen, correlaties, t-testen, ANOVA en regressieanalyse (al dan niet met dummy-variabelen en interacties) begrijpen en interpreteren. \n \nMeer specifiek:  \nJe kan een bivariate of multivariate kwantitatieve analyse uitvoeren. \nHiertoe onderscheiden we de volgende deelvaardigheden: \n- je kan de juiste techniek associëren bij een bepaald analysemodel; \n- je kan een t-test uitvoeren, interpreteren en rapporteren; \n- je kan een onderzoek a.d.h.v. kruistabellen uitvoeren, interpreteren en rapporteren; \n- je kan een correlatieonderzoek uitvoeren, interpreteren en rapporteren; \n- je kan een ANOVA uitvoeren, interpreteren en rapporteren; \n- je kan een bivariate en meervoudige regressieanalyse uitvoeren, interpreteren en rapporteren; \n- je kan regressieanalyse met dummy-variabelen en interactievariabelen uitvoeren, interpreteren en rapporteren; \n- je kan voor elk van deze technieken de assumpties nagaan. \n\n\nLeermateriaal\nHet boek ‘Bivariate en multivariate statistiek met R. Een openleerpakket.’ De Maeyer, Coertjens en Ardies (2012) vormt het studiemateriaal voor dit opleidingsonderdeel. Dit boek is verkrijgbaar bij Acco. We raden je aan om telkens voor de les het hoofdstuk (of de hoofdstukken) voor die les door te nemen. \nNaast dit verplichte cursusmateriaal zijn er ook zelfstudieopdrachten (ZSO’s) op het Studentenportaal terug te vinden. Deze ZSO’s zijn telkens oefeningen waarin de aangereikte leerstof moet worden toegepast op reële datasets. Ook de respons op deze oefeningen is beschikbaar op het Studentenportaal. \nVoor dit opleidingsonderdeel maken we gebruik van de softwarepakketten R en RStudio. Deze zijn gratis te downloaden van www.r-project.org en www.posit.co en kunnen op de courante besturingssystemen geïnstalleerd worden. Studenten die nog niet vertrouwd zijn met het werken met R kunnen best eerst het boek ‘Univariate statistiek voor de menswetenschappen. Een openleerpakket in R’ van De Maeyer, van Daal en Vandervieren doornemen. Dit boek is o.a. verkrijgbaar bij Acco. \n\n\nSchematisch overzicht\nVoor dit vak zijn 8 contactmomenten voorzien. Om meerwaarde te halen uit de contactmomenten dien je op voorhand de relevante hoofdstukken uit het OLP door te nemen en de bijhorende videolessen te bekijken.  \n\n\nEvaluatie\nDe evaluatie van statistiek B bestaat uit een schriftelijk PC-examen dat in twee delen is opgesplitst: \n\neen gesloten boek gedeelte waarin naar kennis en inzicht gepeild wordt (70% van de punten); \n\n\n\neen open boek gedeelte dat focust op je vermogen om analyses uit te voeren in RStudio (30% van de punten).  \n\nJe moet minimaal de helft halen op het gesloten deel om te kunnen slagen voor Statistiek B. Anders bedraagt de score voor Statistiek B maximaal 8/20.  \n\n\nOnderwijsteam\nHet onderwijsteam voor dit opleidingsonderdeel bestaat uit Sven De Maeyer en Sofie Vermeiren. Heb je vragen over “Statistiek B” praktisch of inhoudelijk van aard? Dan stel je deze steeds eerst via het discussieforum op de het Studentenportaal. Dit zal wekelijks worden nagekeken en opgevolgd.  \nSven.Demaeyer@uantwerpen.be \nSofie.Vermeiren@uantwerpen.be",
     "crumbs": [
       "Studiewijzer"
     ]
@@ -573,7 +573,7 @@
     "href": "Contactmomenten/Contactmomenten.html",
     "title": "Contactmomenten",
     "section": "",
-    "text": "Voor dit vak zijn er 7 contactmomenten gepland.\nHieronder vind je een overzicht van de verschillende contactmomenten en welke thema’s aan bod zullen komen.\n\n\n\nCont act-moment\nDatum\nUur\nLokaal\nOnderwerp\n\n\n\n\nC1\n19 /02/2025\n18u30 - 22u\nPlenair: S.R.008\nComputer labs: S.N. 202 en S.N. 302\nVan onderzoeksvraag naar methode\nt-test\n\n\nC2\n05 /03/2025\n17u - 19u\nPlenair: S.R.008\nComputer labs: S.N. 202 en S.N. 302\nANOVA\nKruistabel\n\n\nC3\n19 /03/2025\n16u - 18u\nPlenair: S.R.008\nComputer labs: S.N. 102 en S.N. 202\nCovariantie en correlatie\nBivariate regressie\n\n\nC4\n26 /03/2025\n19u30 - 22u\nPlenair: S.R.008\nComputer labs: S.N. 202 en S.N. 302\nAssumpties bij regressie\nMeervoudige regressie\n\n\nC5\n23 /04/2025\n17u - 19u\nPlenair: S.R.008\nComputer labs: S.N. 202 en S.N. 302\nRegressie met dummyvariabelen en interacties\n\n\nC6\n07 /05/2025\n19u30 - 21u30\nPlenair: S.R.008\nComputer labs: S.N. 202 en S.N. 302\nRegressie met dummyvariabelen en interacties\n\n\nC7\n21 /05/2025\n18u - 21u30\nPlenair: S.R.008\nComputer labs: S.N. 202 en S.N. 302\nOefenexamen\n\n\n\n\n\n\n\n\n\nBelangrijk\n\n\n\nOm het maximale te halen uit deze contactmomenten kom je best goed voorbereid naar de les!\nTijdens de contactmomenten starten we met een korte opfrissing van de kern van de inhoud om vervolgens richting de computerlokalen te gaan waar we een reeks oefeningen hebben voorbereid voor jou.\nWe raden ten sterkste aan om deel te nemen aan deze oefeningen in de computerlokalen. Het geeft je de kans om vertrouwd te raken met R en RStudio in de computerlokalen (waar ook examens zullen doorgaan). Je kan werken aan een efficiënte workflow en je hebt de mogelijkheid om gerichte vragen te stellen aan de docenten.",
+    "text": "Voor dit vak zijn er 8 contactmomenten gepland.\nHieronder vind je een overzicht van de verschillende contactmomenten en welke thema’s aan bod zullen komen.\n\n\n\nCont act-moment\nDatum\nUur\nLokaal\nOnderwerp\n\n\n\n\nC1\n19 /02/2025\n18u30 - 22u\nPlenair: S.R.008\nComputer labs: S.N. 202 en S.N. 302\nVan onderzoeksvraag naar methode\nt-test\n\n\nC2\n05 /03/2025\n17u - 19u\nPlenair: S.R.008\nComputer labs: S.N. 202 en S.N. 302\nANOVA\nKruistabel\n\n\nC3\n19 /03/2025\n16u - 18u\nPlenair: S.R.008\nComputer labs: S.N. 102 en S.N. 202\nCovariantie en correlatie\nBivariate regressie\n\n\nC4\n26 /03/2025\n19u30 - 22u\nPlenair: S.R.008\nComputer labs: S.N. 202 en S.N. 302\nAssumpties bij regressie\nMeervoudige regressie\n\n\nC5\n23 /04/2025\n17u - 19u\nPlenair: S.R.008\nComputer labs: S.N. 202 en S.N. 302\nRegressie met dummyvariabelen en interacties\n\n\nC6\n07 /05/2025\n19u30 - 21u30\nPlenair: S.R.008\nComputer labs: S.N. 202 en S.N. 302\nRegressie met dummyvariabelen en interacties\n\n\nC7\n21 /05/2025\n18u - 21u30\nPlenair: S.R.008\nComputer labs: S.N. 202 en S.N. 302\nOefenexamen\n\n\n\n\n\n\n\n\n\nBelangrijk\n\n\n\nOm het maximale te halen uit deze contactmomenten kom je best goed voorbereid naar de les!\nTijdens de contactmomenten starten we met een korte opfrissing van de kern van de inhoud om vervolgens richting de computerlokalen te gaan waar we een reeks oefeningen hebben voorbereid voor jou.\nWe raden ten sterkste aan om deel te nemen aan deze oefeningen in de computerlokalen. Het geeft je de kans om vertrouwd te raken met R en RStudio in de computerlokalen (waar ook examens zullen doorgaan). Je kan werken aan een efficiënte workflow en je hebt de mogelijkheid om gerichte vragen te stellen aan de docenten.",
     "crumbs": [
       "Contactmomenten"
     ]
@@ -1251,9 +1251,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Statistiek B (AJ 2024-2025)",
+    "title": "Statistiek B (AJ 2025-2026)",
     "section": "",
-    "text": "Welkom op de website voor de cursus Statistiek B (Schakelprogramma OOW, academiejaar 2024 - 2025). Op deze website vind je alle informatie en leermiddelen voor het vak.\nWat kan je op deze website allemaal terugvinden?",
+    "text": "Welkom op de website voor de cursus Statistiek B (Schakelprogramma OOW en BaOnd, academiejaar 2025 - 2026).\nOp deze website vind je alle informatie en leermiddelen voor het vak.\nWat kan je op deze website allemaal terugvinden?",
     "crumbs": [
       "Welkom"
     ]
@@ -1261,7 +1261,7 @@
   {
     "objectID": "index.html#open-leer-pakket",
     "href": "index.html#open-leer-pakket",
-    "title": "Statistiek B (AJ 2024-2025)",
+    "title": "Statistiek B (AJ 2025-2026)",
     "section": "Open Leer Pakket",
     "text": "Open Leer Pakket\nHet cursusmateriaal voor dit vak is het open leerpakket dat we opstelden.",
     "crumbs": [
@@ -1271,7 +1271,7 @@
   {
     "objectID": "index.html#contactmomenten",
     "href": "index.html#contactmomenten",
-    "title": "Statistiek B (AJ 2024-2025)",
+    "title": "Statistiek B (AJ 2025-2026)",
     "section": "Contactmomenten",
     "text": "Contactmomenten\nDit onderdeel van de websit bundelt de informatie per contactmoment. Voor elk contactmoment kan je hier de slides vinden, net als ook het materiaal dat hoort bij de computer lab oefeningen.",
     "crumbs": [
@@ -1281,7 +1281,7 @@
   {
     "objectID": "index.html#online-r-oefeningen",
     "href": "index.html#online-r-oefeningen",
-    "title": "Statistiek B (AJ 2024-2025)",
+    "title": "Statistiek B (AJ 2025-2026)",
     "section": "Online (R) oefeningen",
     "text": "Online (R) oefeningen\nJe vaardigheden in R inoefenen kan op verschillende manieren: op je eigen PC in RStudio maar net zo goed online. In deze sectie zit een hele opbouw van oefeningen die je kan doorlopen, los van RStudio. Dit deel focust dus voornamelijk op het goed begrijpen en inoefenen van de R code op zich, los van hoe je aan de slag gaat met R en RStudio op je pc.\nTijdens het examen voor dit vak is er tevens een gesloten boek onderdeel waarin we voornamelijk je kennis en inzicht in de materie wensen te testen. In dit deel van de website vind je een reeks voorbeeldvragen voor de verschillende onderdelen uit de cursus die representatief zijn voor het gesloten boek onderdeel. Wil je je eigen inzicht en kennis testen, doorloop dan zeker de verschillende testen hier.",
     "crumbs": [
@@ -1291,7 +1291,7 @@
   {
     "objectID": "index.html#computer-labs",
     "href": "index.html#computer-labs",
-    "title": "Statistiek B (AJ 2024-2025)",
+    "title": "Statistiek B (AJ 2025-2026)",
     "section": "Computer labs",
     "text": "Computer labs\nTijdens de fysieke contactmomenten trachten we tijd vrij te maken om jullie oefeningen in R te laten maken. Wij zijn als docenten aanwezig en helpen je graag verder tijdens die oefeningen. Alle oefeningen worden ook op deze plek in de website gebundeld (inclusief de responsen).",
     "crumbs": [
@@ -1301,7 +1301,7 @@
   {
     "objectID": "index.html#zso-zelfstudie-opdrachten",
     "href": "index.html#zso-zelfstudie-opdrachten",
-    "title": "Statistiek B (AJ 2024-2025)",
+    "title": "Statistiek B (AJ 2025-2026)",
     "section": "ZSO (Zelfstudie opdrachten)",
     "text": "ZSO (Zelfstudie opdrachten)\nVoor dit vak hebben we ook een set van ZSO’s opgestelt. Deze opdrachten gaan een stapje verder dan de online R oefeningen op deze website. Voor de ZSO’s dien je ook de datasets op je eigen pc in RStudio op te laden en aan de slag te gaan met bijvoorbeeld een R-script op je pc om de analyses uit te voeren. Deze ZSO’s zijn cruciaal om je goed voor te bereiden op de gehele workflow van werken in RStudio en R, wat ook getoetst zal worden op het examen.",
     "crumbs": [
@@ -1311,7 +1311,7 @@
   {
     "objectID": "index.html#rapporteren",
     "href": "index.html#rapporteren",
-    "title": "Statistiek B (AJ 2024-2025)",
+    "title": "Statistiek B (AJ 2025-2026)",
     "section": "Rapporteren",
     "text": "Rapporteren\nRapporteren over je resultaten is een belangrijke taak als onderzoeker. In deze sectie vind je een set van rapportages van verschillende analyses. Deze stukken rapportage ontleden we zodanig dat je inzicht krijgt in hoe je op een goede wijze kan rapporteren.",
     "crumbs": [
@@ -1321,7 +1321,7 @@
   {
     "objectID": "index.html#screencasts",
     "href": "index.html#screencasts",
-    "title": "Statistiek B (AJ 2024-2025)",
+    "title": "Statistiek B (AJ 2025-2026)",
     "section": "Screencasts",
     "text": "Screencasts\nEr zijn een aantal screencasts gemaakt waarin we een R-sessie tonen. Zie mij aan de slag in R terwijl ik analysetechnieken uitvoer en de resultaten interpreteer.",
     "crumbs": [
@@ -1331,7 +1331,7 @@
   {
     "objectID": "index.html#extra-materiaal",
     "href": "index.html#extra-materiaal",
-    "title": "Statistiek B (AJ 2024-2025)",
+    "title": "Statistiek B (AJ 2025-2026)",
     "section": "Extra materiaal",
     "text": "Extra materiaal\nOnder extra materiaal vind je meer informatie en tutorials die je workflow in R en RStudio nog een pak efficiënter maken. Je vindt er links naar een aantal tutorials op YouTube. Weet dat dit facultatief materiaal is en dat dit niet dient toegepast worden op één of andere wijze om te kunnen slagen voor het vak.",
     "crumbs": [

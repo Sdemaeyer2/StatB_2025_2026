@@ -124,11 +124,11 @@ cookieconsent.run({
       <!-- user-provided yaml closeread style options -->
       <style>
         :root {
-          --cr-section-background-color: transparent;
+          --cr-narrative-background-color-sidebar: #ADA601;
+--cr-section-background-color: transparent;
 --cr-narrative-background-color-overlay: transparent;
---cr-narrative-text-color-sidebar: white;
---cr-narrative-background-color-sidebar: #ADA601;
 --cr-narrative-text-color-overlay: black;
+--cr-narrative-text-color-sidebar: white;
         }
       </style>
     
@@ -158,47 +158,47 @@ cookieconsent.run({
 <p><em>Scroll op deze pagina door naar beneden en we analyseren, zin per zin het stukje rapportage.</em></p>
 <div class="cr-section cr-column-screen sidebar-left">
 <div class="narrative-col">
-<div class="trigger new-trigger" data-focus-on="cr-rapportage" data-hlz="1">
+<div class="trigger new-trigger" data-hlz="1" data-focus-on="cr-rapportage">
 <div class="narrative">
 <p>We starten met het meegeven van de beschrijvende statistieken voor de steekroef. Merk ook op hoe we heel expliciet verwijzen naar het woord steekproef in deze zin om alle verwarring te vermijden.</p>
 </div>
 </div>
-<div class="trigger new-trigger" data-focus-on="cr-rapportage" data-highlight="cr-beschrijving1,cr-beschrijving2,cr-beschrijving3">
+<div class="trigger new-trigger" data-highlight="cr-beschrijving1,cr-beschrijving2,cr-beschrijving3" data-focus-on="cr-rapportage">
 <div class="narrative">
 <p>We geven zowel het gemiddelde als de standaardafwijking weer per pinguïnsoort. Op die manier krijgt de lezer een beeld over welke pinguïnsoort gemiddeld de langste en kortste snavel heeft en hoe groot verschillen zijn tussen pinguïns van dezelfde soort.</p>
 </div>
 </div>
-<div class="trigger new-trigger" data-focus-on="cr-rapportage" data-scale-by="1.5" data-hlz="2">
+<div class="trigger new-trigger" data-focus-on="cr-rapportage" data-hlz="2" data-scale-by="1.5">
 <div class="narrative">
 <p>De volgende zin rapporteert expliciet de conclusie op basis van de Levene test om te bepalen of de assumptie van gelijke binnengroepenvariantie opgaat. Merk op hoe we ook hier expliciet verwijzen naar waarden uit de output: de F-waarde, het aantal vrijheidsgraden en de bijhorende p-waarde. Zo zijn we zeer transparant naar de lezers toe.</p>
 </div>
 </div>
-<div class="trigger new-trigger" data-focus-on="cr-rapportage" data-scale-by="1.5" data-highlight="cr-fwaarde">
+<div class="trigger new-trigger" data-highlight="cr-fwaarde" data-focus-on="cr-rapportage" data-scale-by="1.5">
 <div class="narrative">
 <p>Zoomen we even in naar het stukje over de F-waarde hier, dan merk je dat we tussen haakjes meteen ook de vrijheidsgraden meegeven in de vorm van F(vrijheidsgraad1, vrijheidsgraad2). Hier zijn de vrijheidsgraden dus respievelijk 2 en 339.</p>
 </div>
 </div>
-<div class="trigger new-trigger" data-focus-on="cr-rapportage" data-hlz="3">
+<div class="trigger new-trigger" data-hlz="3" data-focus-on="cr-rapportage">
 <div class="narrative">
 <p>Daarna volgt de rapportage van de resultaten van de eigenlijke ANOVA-analyse. Opnieuw delen we de informatie uit de output met de lezer: de F-waarde, het aantal vrijheidsgraden en de p-waarde.</p>
 </div>
 </div>
-<div class="trigger new-trigger" data-focus-on="cr-rapportage" data-hlz="4">
+<div class="trigger new-trigger" data-hlz="4" data-focus-on="cr-rapportage">
 <div class="narrative">
 <p>Vervolgens is het van belang om ook een inzicht te geven in de effectgrootte. Bij ANOVA kunnen we eta² gebruiken als maat.</p>
 </div>
 </div>
-<div class="trigger new-trigger" data-focus-on="cr-rapportage" data-highlight="cr-eta" data-scale-by="1.5" data-pan-to="-25%,-50%">
+<div class="trigger new-trigger" data-highlight="cr-eta" data-focus-on="cr-rapportage" data-pan-to="-25%,-50%" data-scale-by="1.5">
 <div class="narrative">
 <p>We rapporteren zowel het getal zelf …</p>
 </div>
 </div>
-<div class="trigger new-trigger" data-focus-on="cr-rapportage" data-highlight="cr-grootte" data-scale-by="1.5" data-pan-to="-25%,-50%">
+<div class="trigger new-trigger" data-highlight="cr-grootte" data-focus-on="cr-rapportage" data-pan-to="-25%,-50%" data-scale-by="1.5">
 <div class="narrative">
 <p>als de interpretatie ervan (een groot effect in dit geval).</p>
 </div>
 </div>
-<div class="trigger new-trigger" data-focus-on="cr-rapportage" data-hlz="5">
+<div class="trigger new-trigger" data-hlz="5" data-focus-on="cr-rapportage">
 <div class="narrative">
 <p>Tot slot rapporteren we over de post-hoc testen die typisch ook uitgevoerd worden bij ANOVA-analyses.</p>
 </div>
