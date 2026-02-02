@@ -23,11 +23,11 @@ Hieronder vind je een overzicht van de verschillende contactmomenten en
 welke thema's aan bod zullen komen.
 
 +------------+--------------+------------+--------------+----------------------------------+
-| Cont       | Datum        | Uur        | Lokaal       | Onderwerp                        |
-| act-moment |              |            |              |                                  |
+| Contact-   | Datum        | Uur        | Lokaal       | Onderwerp                        |
+| moment     |              |            |              |                                  |
 +============+==============+============+==============+==================================+
-| [C1](      | 11/02/2026   | 18u -      | Plenair:     | Van onderzoeksvraag naar methode |
-| C1/C1.qmd) |              | 21u        | S.R.008      |                                  |
+| [C1](      | 11/02/2026   | 18u - 21u  | Plenair:     | Van onderzoeksvraag naar methode |
+| C1/C1.qmd) |              |            | S.R.008      |                                  |
 |            |              |            |              | t-test                           |
 |            |              |            | Computer     |                                  |
 |            |              |            | labs: S.N.   |                                  |
@@ -50,8 +50,8 @@ welke thema's aan bod zullen komen.
 |            |              |            | 102 en S.N.  |                                  |
 |            |              |            | 202          |                                  |
 +------------+--------------+------------+--------------+----------------------------------+
-| [C4](      | 11/03/2026   | 17u -      | Plenair:     | Assumpties bij regressie         |
-| C4/C4.qmd) |              | 19u        | S.R.008      |                                  |
+| [C4](      | 11/03/2026   | 17u - 19u  | Plenair:     | Assumpties bij regressie         |
+| C4/C4.qmd) |              |            | S.R.008      |                                  |
 |            |              |            |              | Meervoudige regressie            |
 |            |              |            | Computer     |                                  |
 |            |              |            | labs: S.N.   |                                  |
@@ -66,24 +66,24 @@ welke thema's aan bod zullen komen.
 |            |              |            | 202 en S.N.  |                                  |
 |            |              |            | 302          |                                  |
 +------------+--------------+------------+--------------+----------------------------------+
-| [C6](      | 22/04/2026   | 17u -      | Plenair:     | Regressie met dummyvariabelen en |
-| C6/C6.qmd) |              | 19u        | S.R.008      | interacties                      |
+| [C6](      | 22/04/2026   | 17u - 19u  | Plenair:     | Regressie met dummyvariabelen en |
+| C6/C6.qmd) |              |            | S.R.008      | interacties                      |
 |            |              |            |              |                                  |
 |            |              |            | Computer     |                                  |
 |            |              |            | labs: S.N.   |                                  |
 |            |              |            | 202 en S.N.  |                                  |
 |            |              |            | 302          |                                  |
 +------------+--------------+------------+--------------+----------------------------------+
-| [C7](      | 29/04/2026   | 17u -      | Plenair:     | Oefensessie                      |
-| C7/C7.qmd) |              | 19u        | S.R.008      |                                  |
+| [C7](      | 29/04/2026   | 17u - 19u  | Plenair:     | Oefensessie                      |
+| C7/C7.qmd) |              |            | S.R.008      |                                  |
 |            |              |            |              |                                  |
 |            |              |            | Computer     |                                  |
 |            |              |            | labs: S.N.   |                                  |
 |            |              |            | 202 en S.N.  |                                  |
 |            |              |            | 302          |                                  |
 +------------+--------------+------------+--------------+----------------------------------+
-| C8         | 20/05/2026   | 17u -      | Plenair:     | Oefensessie                      |
-|            |              | 19u        | S.R.008      |                                  |
+| C8         | 20/05/2026   | 17u - 19u  | Plenair:     | Oefensessie                      |
+|            |              |            | S.R.008      |                                  |
 |            |              |            |              |                                  |
 |            |              |            | Computer     |                                  |
 |            |              |            | labs: S.N.   |                                  |
