@@ -18,9 +18,9 @@ Dit eerste contactmoment behandelt volgende inhouden:
 
 ## Lesmateriaal
 
-![](/images/icons/zz_slides.png){width="30"} [Slides Contactmoment 1](/Contactmomenten/C1/StatB_2024_C1.pdf)
+![](/images/icons/zz_slides.png){width="30"} [Slides Contactmoment 1]
 
-![](/images/icons/zz_video_camera.png){width="30"} [Lesopname (terug te vinden op Blackboard)](https://mediasite.uantwerpen.be/Mediasite/Play/454ee39b00454059baceba7bc33157bb1d)
+![](/images/icons/zz_video_camera.png){width="30"} [Lesopname (terug te vinden op Blackboard)]
 
 ![](/images/icons/guided-practice.png){width="30"} [Opdrachten computer lab](/Contactmomenten/C1/Opdrachten_C1.qmd)
 
