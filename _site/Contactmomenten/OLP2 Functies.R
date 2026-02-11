@@ -1,3 +1,13 @@
+## Patch rond is.R in base
+is.R <- function(...) {
+  invalid <- function(x) {
+    is.null(x) || length(x) == 0 || all(is.na(x))
+  }
+  TRUE  # altijd TRUE
+}
+
+  
+
 freqtabel <- function(X){
   Table <- data.frame( table(X) )
   Table$Percentage <- prop.table( Table$Freq )*100
@@ -32,18 +42,13 @@ betr.interval.Var1= function(data, conf.level = 0.95) {
 	c(onder, boven)
 	}
 
-betr.interval.Var2= function(x, n, conf.level = 0.95) { 
- 	halfalpha <- (1 - conf.level) / 2
- 	df <- n - 1
- 	v <- x
- 	boven <- v * df / qchisq(halfalpha, df)
- 	onder <- v * df / qchisq(1 - halfalpha, df)	
- 	output <- c(onder, boven)
- 	output <- c(onder, boven)
- 	variabelenaam <- paste("'", deparse(substitute(x)), "'", sep = "")
- 	cat("Dit is het 95% betrouwbaarheidsinterval rond de variantie van de variabele", variabelenaam, sep = " ", "\n")
- 	output
- 	
+betr.interval.Var2= function(x,n, conf.level = 0.95) { 
+ 	halfalpha=(1-conf.level)/2
+ 	df=n-1
+ 	v=x
+ 	boven = v*df/qchisq(halfalpha,df)
+ 	onder = v*df/qchisq(1-halfalpha,df)	
+ 	c(onder, boven)
  	}
 
 st.fout.Skew= function(X) { 
@@ -1532,7 +1537,6 @@ cooks_plot=function (X)
     p=length(X$coefficients)
     n=length(X$residuals)
     COOK<-cooks.distance(X)
-    names(COOK)<-seq(1:length(COOK))
     cutoff<-4/(n-p-1)
     plot(names(COOK),COOK,ylab="Cook's distance",xlab="Case nr")
     abline(h=cutoff,lty=2,col="red")
@@ -1545,7 +1549,6 @@ residuals_plot2=function (X)
     n=length(X$residuals)
     RSTUDENT<-na.omit(rstudent(X))
     FITTED<-na.omit(X$fitted.values)
-    names(FITTED)<-seq(1:length(FITTED))
     plot(FITTED,RSTUDENT,ylab="Studentized residuals",xlab="Voorspelde waarden")
     abline(h=2,lty=2,col="red")
 	abline(h=-2,lty=2,col="red")
@@ -1558,14 +1561,13 @@ residuals_plot=function (X)
     n=length(X$residuals)
     RSTUDENT<-rstudent(X)
     FITTED<-X$fitted.values
-    names(FITTED)<-seq(1:length(FITTED))
     plot(FITTED,RSTUDENT,ylab="Studentized residuals",xlab="Voorspelde waarden")
     abline(h=2,lty=2,col="red")
-	  abline(h=-2,lty=2,col="red")
+	abline(h=-2,lty=2,col="red")
     identify(FITTED,RSTUDENT,names(FITTED))
 }
 
-bonferroni<-function(x,y) {pairwise.t.test(x,y,p.adjust.method="bonferroni", pool.sd=F)}
+Bonferroni<-function(x,y) {pairwise.t.test(x,y,p.adjust.method="bonferroni", pool.sd=F)}
 
 #### LOGISTISCHE REGRESSIE ####
 
