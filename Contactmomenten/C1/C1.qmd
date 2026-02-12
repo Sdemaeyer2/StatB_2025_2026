@@ -14,7 +14,7 @@ Dit eerste contactmoment behandelt volgende inhouden:
 
 ![](/images/icons/singletutorial.png){width="30"} [Online (R) Oefeningen t-test](/Zelftest_t_test.qmd)
 
-![](/images/icons/zz_video_camera.png){width="30"} [Screencast t-test](https://mediasite.uantwerpen.be/Mediasite/Channel/statistiek-b-public/watch/9c0204b506eb4787a3d5bebc5b58c6e71d)
+![](/images/icons/zz_video_camera.png){width="30"} [Screencast t-test](https://youtu.be/h02rpSW332Q?si=Acs-NdCnSW3FLF6k)
 
 ## Lesmateriaal
 

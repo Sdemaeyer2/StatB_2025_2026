@@ -7,29 +7,18 @@ editor: visual
 
 [Terug naar de site](index.qmd)
 
-Voor dit vak zijn een set screencasts gemaakt. Deze worden gehost op de
-mediasite van de Universiteit Antwerpen en kan je hier allemaal
-streamen.
+Voor dit vak zijn een set screencasts gemaakt. Deze worden sinds dit jaar gehost op een YouTube kanaal:
 
-::: callout-important
-Je moet ingelogd zijn met een Uantwerpen account om de screencasts te
-zien (zowel hier als op de mediasite zelf).
-:::
+[NAAR YOUTUBE KANAAL](https://www.youtube.com/playlist?list=PL2DugnooOubXeiEZBLi8McjDWRA6rVHcw)
 
 ::: callout-tip
 ## Datasets
 
-Tijdens de screencasts presenteren we analyses op de PIAAC dataset. De
-twee bestanden die we gebruiken kan je hier downloaden:
+Tijdens de screencasts presenteren we analyses op de PIAAC dataset. De twee bestanden die we gebruiken kan je hier downloaden:
 
 -   [PiaacBel.RData](/Data_Screencasts/PiaacBel.RData)
 
 -   [PiaacNedl.RData](/Data_Screencasts/PiaacNedl.RData)
 :::
 
-Wil je naar de mediasite zelf: [KLIK
-HIER](https://mediasite.uantwerpen.be/Mediasite/Channel/statistiek-b-public)
-
-<iframe title="Statistiek B (public)" width="1024" height="768" frameborder="0" scrolling="auto" marginheight="0" marginwidth="0" src="https://mediasite.uantwerpen.be/Mediasite/Channel/statistiek-b-public/embedded">
-
-</iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=21EZrLVw4T5GLirz&amp;list=PL2DugnooOubXeiEZBLi8McjDWRA6rVHcw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
