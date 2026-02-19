@@ -21,4 +21,26 @@ Tijdens de screencasts presenteren we analyses op de PIAAC dataset. De twee best
 -   [PiaacNedl.RData](/Data_Screencasts/PiaacNedl.RData)
 :::
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=21EZrLVw4T5GLirz&amp;list=PL2DugnooOubXeiEZBLi8McjDWRA6rVHcw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+::: callout-tip
+## Voorbeeldscripts
+
+Tijdens de screencasts zie je ook dat er telkens een script is gehanteerd. Op algemene aanvraag hieronder de scripts als downloads:
+
+-   [Voorbeeldscript screencast 1](/Data_Screencasts/Script_Voorbeeldsessie_1.R)
+
+-   [Voorbeeldscript screencast 2](/Data_Screencasts/Script_Voorbeeldsessie_2.R)
+
+-   [Voorbeeldscript screencast 3](/Data_Screencasts/Script_Voorbeeldsessie_3.R)
+
+-   [Voorbeeldscript screencast 4](/Data_Screencasts/Script_Voorbeeldsessie_4.R)
+
+-   [Voorbeeldscript screencast 5](/Data_Screencasts/Script_Voorbeeldsessie_5.R)
+
+-   [Voorbeeldscript screencast 6](/Data_Screencasts/Script_Voorbeeldsessie_6.R)
+
+-   [Voorbeeldscript screencast 7](/Data_Screencasts/Script_Voorbeeldsessie_7.R)
+:::
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=21EZrLVw4T5GLirz&amp;list=PL2DugnooOubXeiEZBLi8McjDWRA6rVHcw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+
+</iframe>
