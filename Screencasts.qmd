@@ -12,17 +12,13 @@ Voor dit vak zijn een set screencasts gemaakt. Deze worden sinds dit jaar gehost
 [NAAR YOUTUBE KANAAL](https://www.youtube.com/playlist?list=PL2DugnooOubXeiEZBLi8McjDWRA6rVHcw)
 
 ::: callout-tip
-## Datasets
+## Datasets en voorbeeldscripts
 
 Tijdens de screencasts presenteren we analyses op de PIAAC dataset. De twee bestanden die we gebruiken kan je hier downloaden:
 
 -   [PiaacBel.RData](/Data_Screencasts/PiaacBel.RData)
 
 -   [PiaacNedl.RData](/Data_Screencasts/PiaacNedl.RData)
-:::
-
-::: callout-tip
-## Voorbeeldscripts
 
 Tijdens de screencasts zie je ook dat er telkens een script is gehanteerd. Op algemene aanvraag hieronder de scripts als downloads:
 
