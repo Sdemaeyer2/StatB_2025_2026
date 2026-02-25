@@ -25,7 +25,7 @@ regressie-analyse](https://youtu.be/BaDZk9rSSH8?si=Zji1_5SePORCjKx3)
 
 ## Lesmateriaal
 
-![](/images/icons/zz_slides.png){width="30"} [Slides Contactmoment 3]
+![](/images/icons/zz_slides.png){width="30"} [Slides Contactmoment 3](/PPT_STATB/Sta%20B_2026_C3_cor_bivreg_BB.pptx)
 
 ![](/images/icons/data.png){width="30"} [Dataset uit de slides](/Contactmomenten/StatistiekB.RData)
 
