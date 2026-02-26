@@ -38,8 +38,7 @@ P1 <- ggplot(Data,
 :::::::::::::: cr-section
 
 
-We starten met een datasetje @cr-start
- waarin we het verband nagaan tussen het aantal uren gestudeerd voor een vak (uitgedrukt in een z-score) (`Uren`) en de behaalde score voor het examen van dat vak (`Examenscore`).
+@cr-start We starten met een datasetje waarin we het verband nagaan tussen het aantal uren gestudeerd voor een vak (uitgedrukt in een z-score) (`Uren`) en de behaalde score voor het examen van dat vak (`Examenscore`).
 
 
 ::: {#cr-start}
