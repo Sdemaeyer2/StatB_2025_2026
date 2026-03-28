@@ -1,0 +1,327 @@
+---
+title: "Dummyvariabelen in regressieanalyse"
+lang: be-nl
+format:
+  closeread-html:
+    embed-resources: true
+sidebar: false
+---
+
+[← Concepten in beeld](../Scrollytelling.qmd)
+
+Bij regressieanalyse wil je het verband onderzoeken tussen een predictor en een uitkomstvariabele.
+Tot nu toe werkte je steeds met **kwantitatieve** predictoren: leeftijd, inkomen, studietijd.
+Maar wat als je predictor **categorisch** is? Denk aan onderwijstype (ASO, BSO, TSO), geslacht,
+of opleidingsniveau.
+
+Je kan moeilijk "ASO" of "BSO" in een regressieformule stoppen — een formule verwacht getallen.
+De oplossing heet **dummy-codering**: je vertaalt een categorische variabele om naar één of
+meerdere variabelen die enkel de waarden 0 en 1 aannemen.
+
+*Maar hoe werkt dat precies, en wat betekenen de regressiecoëfficiënten dan nog?*
+Scroll rustig naar beneden en we bouwen het stap voor stap op.
+
+```{r warning=F, echo=F, message=F}
+library(tidyverse)
+
+set.seed(42)
+n_per_groep <- 30
+
+# Gesimuleerde data: wiskundescore per onderwijstype
+Data <- tibble(
+  onderwijstype = rep(c("ASO", "BSO", "TSO"), each = n_per_groep),
+  score = c(
+    rnorm(n_per_groep, mean = 14.5, sd = 2.0),
+    rnorm(n_per_groep, mean = 10.2, sd = 2.0),
+    rnorm(n_per_groep, mean = 12.3, sd = 2.0)
+  )
+)
+
+# Kleurenpalet conform de website
+kleuren <- c("ASO" = "#117733", "BSO" = "#CC3311", "TSO" = "#ADA601")
+
+# Gemiddelden per groep
+gem <- Data %>%
+  group_by(onderwijstype) %>%
+  summarise(gem_score = mean(score))
+
+gem_ASO <- gem %>% filter(onderwijstype == "ASO") %>% pull(gem_score) %>% round(2)
+gem_BSO <- gem %>% filter(onderwijstype == "BSO") %>% pull(gem_score) %>% round(2)
+gem_TSO <- gem %>% filter(onderwijstype == "TSO") %>% pull(gem_score) %>% round(2)
+
+# ── Twee groepen: ASO vs BSO ──────────────────────────────────────────────────
+Data2 <- Data %>%
+  filter(onderwijstype %in% c("ASO", "BSO")) %>%
+  mutate(dummy_BSO = ifelse(onderwijstype == "BSO", 1, 0))
+
+model1 <- lm(score ~ dummy_BSO, data = Data2)
+b0 <- round(coef(model1)[1], 2)
+b1 <- round(coef(model1)[2], 2)
+
+# ── Drie groepen: ASO (ref), BSO, TSO ────────────────────────────────────────
+Data3 <- Data %>%
+  mutate(
+    dummy_BSO = ifelse(onderwijstype == "BSO", 1, 0),
+    dummy_TSO = ifelse(onderwijstype == "TSO", 1, 0)
+  )
+
+model2 <- lm(score ~ dummy_BSO + dummy_TSO, data = Data3)
+b0_m2 <- round(coef(model2)[1], 2)
+b1_m2 <- round(coef(model2)[2], 2)
+b2_m2 <- round(coef(model2)[3], 2)
+
+# ── Plots voorbereiden ────────────────────────────────────────────────────────
+
+# Plot 1: alle drie groepen als jitterplot
+P_alle <- ggplot(Data, aes(x = onderwijstype, y = score, color = onderwijstype)) +
+  geom_jitter(width = 0.12, size = 2.2, alpha = 0.75) +
+  stat_summary(fun = mean, geom = "crossbar", width = 0.4,
+               color = "black", linewidth = 0.6) +
+  scale_color_manual(values = kleuren) +
+  scale_y_continuous(limits = c(4, 21), breaks = seq(4, 20, 2)) +
+  labs(x = "Onderwijstype", y = "Wiskundescore") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "none")
+
+# Plot 2: enkel ASO en BSO (categorisch)
+P_twee_cat <- ggplot(Data2, aes(x = onderwijstype, y = score, color = onderwijstype)) +
+  geom_jitter(width = 0.12, size = 2.2, alpha = 0.75) +
+  stat_summary(fun = mean, geom = "crossbar", width = 0.4,
+               color = "black", linewidth = 0.6) +
+  scale_color_manual(values = kleuren) +
+  scale_y_continuous(limits = c(4, 21), breaks = seq(4, 20, 2)) +
+  labs(x = "Onderwijstype", y = "Wiskundescore") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "none")
+
+# Plot 3: ASO en BSO met dummy op x-as
+P_dummy_scatter <- ggplot(Data2, aes(x = dummy_BSO, y = score, color = onderwijstype)) +
+  geom_jitter(width = 0.06, size = 2.2, alpha = 0.75) +
+  scale_color_manual(values = kleuren) +
+  scale_x_continuous(breaks = c(0, 1),
+                     labels = c("0  (= ASO)", "1  (= BSO)"),
+                     limits = c(-0.3, 1.3)) +
+  scale_y_continuous(limits = c(4, 21), breaks = seq(4, 20, 2)) +
+  labs(x = "dummy_BSO", y = "Wiskundescore") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "none")
+
+# Plot 4: dummy scatter + regressielijn
+P_regressielijn <- P_dummy_scatter +
+  geom_smooth(method = "lm", se = FALSE, color = "black",
+              linewidth = 1, aes(group = 1))
+
+# Plot 5: met annotaties b0 en b1
+P_annotaties <- P_regressielijn +
+  # b0: intercept = gemiddelde ASO
+  annotate("segment",
+           x = -0.08, xend = -0.08,
+           y = 0, yend = b0,
+           color = "#117733", linewidth = 1.2, linetype = "dashed") +
+  annotate("label",
+           x = -0.22, y = b0 / 2,
+           label = paste0("b[0] == ", b0),
+           parse = TRUE,
+           color = "#117733", size = 3.8, fill = "white", label.size = 0) +
+  # b1: verschil tussen de twee groepen
+  annotate("segment",
+           x = 1.15, xend = 1.15,
+           y = b0, yend = b0 + b1,
+           color = "#CC3311", linewidth = 1.2,
+           arrow = arrow(ends = "both", length = unit(0.08, "inches"))) +
+  annotate("label",
+           x = 1.27, y = b0 + b1 / 2,
+           label = paste0("b[1] == ", b1),
+           parse = TRUE,
+           color = "#CC3311", size = 3.8, fill = "white", label.size = 0)
+
+# Plot 6: drie groepen met twee dummies (jitter, kleurcode)
+P_drie_dummy <- ggplot(Data, aes(x = onderwijstype, y = score, color = onderwijstype)) +
+  geom_jitter(width = 0.12, size = 2.2, alpha = 0.75) +
+  stat_summary(fun = mean, geom = "crossbar", width = 0.4,
+               color = "black", linewidth = 0.6) +
+  scale_color_manual(values = kleuren) +
+  scale_y_continuous(limits = c(4, 21), breaks = seq(4, 20, 2)) +
+  annotate("text", x = 1, y = 20.5, label = "dummy_BSO = 0\ndummy_TSO = 0",
+           color = "#117733", size = 3.2, fontface = "bold") +
+  annotate("text", x = 2, y = 20.5, label = "dummy_BSO = 1\ndummy_TSO = 0",
+           color = "#CC3311", size = 3.2, fontface = "bold") +
+  annotate("text", x = 3, y = 20.5, label = "dummy_BSO = 0\ndummy_TSO = 1",
+           color = "#ADA601", size = 3.2, fontface = "bold") +
+  labs(x = "Onderwijstype", y = "Wiskundescore") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "none")
+```
+
+:::::::::::::: cr-section
+
+Heidi is een student die onderzoek doet voor haar bachelorproef. Ze vraagt zich af of
+het onderwijstype van leerlingen — ASO, BSO of TSO — een effect heeft op hun prestaties
+voor wiskunde. Ze heeft data verzameld bij 90 leerlingen. @cr-alle-groepen
+
+::: {#cr-alle-groepen}
+```{r warning=F, echo=F, message=F}
+P_alle
+```
+:::
+
+De horizontale balkjes zijn de gemiddelden per groep. Het patroon is duidelijk:
+ASO-leerlingen scoren gemiddeld het hoogst, gevolgd door TSO en dan BSO.
+
+*Maar kan Heidi dit verband nu gewoon onderzoeken met regressieanalyse?*
+
+Dat is niet zo eenvoudig als het lijkt. Een regressiemodel werkt met een
+**formule**: $\hat{Y} = b_0 + b_1 \cdot X_1$. Die formule verwacht getallen.
+Je kan geen "ASO" of "BSO" invullen in een vermenigvuldiging. @cr-alle-groepen
+
+We maken het eerst iets eenvoudiger. Stel dat Heidi enkel twee groepen vergelijkt:
+**ASO** en **BSO**. @cr-twee-cat
+
+::: {#cr-twee-cat}
+```{r warning=F, echo=F, message=F}
+P_twee_cat
+```
+:::
+
+*Hoe vertaal je "ASO" en "BSO" naar getallen die je in een regressieformule
+kan stoppen?*
+
+Het antwoord is verrassend simpel: we maken een nieuwe variabele `dummy_BSO`
+die de waarde **1** krijgt als een leerling tot BSO behoort,
+en de waarde **0** als de leerling tot ASO behoort.
+Zo'n variabele noemen we een **dummyvariabele**. @cr-dummy-scatter
+
+::: {#cr-dummy-scatter}
+```{r warning=F, echo=F, message=F}
+P_dummy_scatter
+```
+:::
+
+Op de x-as staat nu onze dummyvariabele: 0 voor ASO-leerlingen (groen),
+1 voor BSO-leerlingen (rood). De y-as toont nog steeds de wiskundescore.
+
+*Dit ziet er al veel meer uit als een gewone scatterplot, nietwaar?*
+
+Nu kunnen we een regressielijn tekenen door deze punten. @cr-regressielijn
+
+::: {#cr-regressielijn}
+```{r warning=F, echo=F, message=F}
+P_regressielijn
+```
+:::
+
+Dat is precies dezelfde regressielijn als altijd. Maar wat betekenen de
+coëfficiënten nu? Laat ons ze een voor een bekijken. @cr-annotaties
+
+::: {#cr-annotaties}
+```{r warning=F, echo=F, message=F}
+P_annotaties
+```
+:::
+
+Het **intercept** $b_0$ (groen, links) is de voorspelde score wanneer
+`dummy_BSO = 0` — dus voor **ASO-leerlingen**. Dat is gewoon
+het gemiddelde van de referentiegroep: $b_0 = `r b0`$.
+
+De **helling** $b_1$ (rood, rechts) is het verschil in voorspelde score
+tussen `dummy_BSO = 1` en `dummy_BSO = 0` — dus het verschil in gemiddelde
+score tussen BSO en ASO: $b_1 = `r b1`$.
+
+[@cr-formule]{highlight="cr-span-b0,cr-span-b1"}
+
+| {#cr-formule}
+| Het regressiemodel met één dummyvariabele ziet er zo uit:
+|
+| $\hat{\text{Score}}$ = [**`r b0`**]{#cr-span-b0} + [**`r b1`**]{#cr-span-b1} × dummy_BSO
+|
+| Voor een ASO-leerling (dummy_BSO = 0):  `r b0` + `r b1` × 0 = **`r b0`**
+| Voor een BSO-leerling (dummy_BSO = 1):  `r b0` + `r b1` × 1 = **`r round(b0 + b1, 2)`**
+
+De intercept is dus het **gemiddelde van de referentiegroep** (ASO),
+en de regressiecoëfficiënt is het **verschil** met die referentiegroep.
+De referentiegroep is altijd de groep die je codeert als 0. @cr-formule
+
+*Maar Heidi heeft drie groepen. Hoe pakken we dat aan?*
+
+Als je drie groepen hebt (ASO, BSO, TSO), maak je **twee** dummyvariabelen:
+één voor BSO (0 of 1) en één voor TSO (0 of 1).
+ASO blijft de referentiegroep — die herkent het model doordat beide
+dummies tegelijk 0 zijn. @cr-drie-dummy
+
+::: {#cr-drie-dummy}
+```{r warning=F, echo=F, message=F}
+P_drie_dummy
+```
+:::
+
+Elke groep krijgt zo zijn eigen unieke combinatie van waarden:
+ASO-leerlingen scoren 0 op beide dummies, BSO-leerlingen scoren 1 op
+`dummy_BSO` en 0 op `dummy_TSO`, en TSO-leerlingen omgekeerd.
+
+[@cr-formule-3g]{highlight="cr-span-b0m2,cr-span-b1m2,cr-span-b2m2"}
+
+| {#cr-formule-3g}
+| Het model met twee dummies:
+|
+| $\hat{\text{Score}}$ = [**`r b0_m2`**]{#cr-span-b0m2} + [**`r b1_m2`**]{#cr-span-b1m2} × dummy_BSO + [**`r b2_m2`**]{#cr-span-b2m2} × dummy_TSO
+|
+| ASO  (0, 0): `r b0_m2` + `r b1_m2`×0 + `r b2_m2`×0 = **`r b0_m2`**
+| BSO  (1, 0): `r b0_m2` + `r b1_m2`×1 + `r b2_m2`×0 = **`r round(b0_m2 + b1_m2, 2)`**
+| TSO  (0, 1): `r b0_m2` + `r b1_m2`×0 + `r b2_m2`×1 = **`r round(b0_m2 + b2_m2, 2)`**
+
+De intercept is nog steeds het gemiddelde van de referentiegroep (ASO = `r b0_m2`).
+$b_1$ is het verschil tussen BSO en ASO, $b_2$ het verschil tussen TSO en ASO. @cr-formule-3g
+
+*Maar waarom maken we geen drie dummies voor drie groepen?* Dat is de
+zogenaamde **dummy-trap**. @cr-dummy-trap
+
+| {#cr-dummy-trap}
+| Stel dat je drie dummies maakt:
+|
+| [dummy_ASO]{#cr-span-daso} + [dummy_BSO]{#cr-span-dbso} + [dummy_TSO]{#cr-span-dtso}
+|
+| Voor elke leerling geldt: één van de drie is 1, de andere twee zijn 0.
+| Dus: dummy_ASO + dummy_BSO + dummy_TSO = **altijd 1**.
+|
+| De drie dummies bevatten geen nieuwe informatie meer —
+| als je dummy_BSO en dummy_TSO kent, weet je dummy_ASO al.
+| Dit noemen we **perfecte multicollineariteit**, en R kan het model
+| dan niet schatten.
+
+[@cr-dummy-trap]{highlight="cr-span-daso,cr-span-dbso,cr-span-dtso"}
+
+Wanneer de som van alle dummies altijd gelijk is aan 1, bevatten ze
+geen onafhankelijke informatie meer. Eén dummy is altijd volledig bepaald
+door de andere twee — hij is overbodig. @cr-dummy-trap
+
+De vuistregel is daarom: gebruik altijd **k − 1 dummies** voor een categorische
+variabele met **k** categorieën. Eén categorie fungeert steeds als
+**referentiecategorie** (de categorie die je codeert als 0 op alle dummies).
+
+In R hoef je dit trouwens niet zelf te doen. Als je een variabele als `factor()`
+definieert, past R de dummy-codering automatisch toe — en kiest het automatisch
+de eerste categorie (alfabetisch) als referentie. @cr-r-code
+
+::: {#cr-r-code}
+```{r warning=F, echo=T, message=F}
+# R past dummy-codering automatisch toe via factor()
+Data <- Data %>%
+  mutate(onderwijstype = factor(onderwijstype))
+
+# Referentiecategorie bekijken (altijd de eerste)
+levels(Data$onderwijstype)
+
+# Model fitten: R maakt automatisch k-1 dummies aan
+model <- lm(score ~ onderwijstype, data = Data)
+summary(model)$coefficients %>% round(3)
+```
+:::
+
+In de output zie je `onderwijstypeBSO` en `onderwijstypeTSO` als coëfficiënten —
+dat zijn de twee dummies die R automatisch aanmaakte. **ASO** is de referentiegroep
+en verschijnt niet als aparte regel: de intercept is het gemiddelde voor ASO.
+
+Zo heeft Heidi nu een volledig regressiemodel waarbij ze het effect van onderwijstype
+kan schatten — met correcte dummy-codering en een duidelijke referentiegroep. @cr-r-code
+
+::::::::::::::

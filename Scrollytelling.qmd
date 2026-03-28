@@ -16,6 +16,7 @@ De pagina's zijn geen vervanging van de cursusinhoud, maar een aanvulling: een p
 |---|---|
 | [OLS uitgelegd](Scrollytelling_pages/OLS.qmd) | Waarom de methode van de kleinste kwadraten de beste regressielijn oplevert |
 | [R-kwadraat uitgelegd](Scrollytelling_pages/R_kwadraat.qmd) | Wat TSS, RSS en SSE betekenen en hoe R² de modelfit samenvat |
+| [Dummyvariabelen in regressieanalyse](Scrollytelling_pages/Dummyvariabelen.qmd) | Hoe je categorische predictoren omzet naar dummyvariabelen en de coëfficiënten interpreteert |
 
 ### Statistische inferentie
 
