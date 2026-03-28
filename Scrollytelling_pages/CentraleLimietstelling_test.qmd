@@ -1,0 +1,193 @@
+---
+title: "De Centrale Limietstelling uitgelegd"
+lang: be-nl
+format:
+  closeread-html:
+    embed-resources: true
+sidebar: false
+---
+
+[← Concepten in beeld](../Scrollytelling.qmd)
+
+De centrale limietstelling is een van de meest krachtige concepten in de statistiek. Het zegt iets fascinerends: zelfs als de onderliggende data helemaal niet normaal verdeeld is, zal het gemiddelde van steekproeven zich gedragen als een normale verdeling — en hoe groter de steekproeven, hoe sterker dit patroon.
+
+Dit is waarom veel statistische testen uitstekend werken, zelfs in de praktijk waar data zelden perfect normaal is verdeeld. Maar hoe werkt dit precies? En wat betekent het voor jou als onderzoeker?
+
+Scroll rustig door naar beneden en ga mee in dit statistisch verhaaltje. We laten je stap voor stap zien hoe de steekproefverdeling van het gemiddelde zich in één elegante vorm organiseert.
+
+```{r warning=F, echo=F, message=F}
+library(tidyverse)
+
+set.seed(42)
+
+n_populatie <- 100000
+populatie <- runif(n_populatie, min = 0, max = 100)
+
+verzamelen_gemiddelden <- function(populatie, n_steekproef, n_replicaties = 10000) {
+  replicate(n_replicaties, mean(sample(populatie, size = n_steekproef, replace = TRUE)))
+}
+
+gemiddelden_n1  <- verzamelen_gemiddelden(populatie, 1)
+gemiddelden_n5  <- verzamelen_gemiddelden(populatie, 5)
+gemiddelden_n10 <- verzamelen_gemiddelden(populatie, 10)
+gemiddelden_n30 <- verzamelen_gemiddelden(populatie, 30)
+gemiddelden_n50 <- verzamelen_gemiddelden(populatie, 50)
+
+niveaus <- c("n = 1", "n = 5", "n = 10", "n = 30", "n = 50")
+
+df_n1  <- tibble(gemiddelde = gemiddelden_n1,  steekproefgrootte = factor("n = 1",  niveaus))
+df_n5  <- tibble(gemiddelde = gemiddelden_n5,  steekproefgrootte = factor("n = 5",  niveaus))
+df_n10 <- tibble(gemiddelde = gemiddelden_n10, steekproefgrootte = factor("n = 10", niveaus))
+df_n30 <- tibble(gemiddelde = gemiddelden_n30, steekproefgrootte = factor("n = 30", niveaus))
+df_n50 <- tibble(gemiddelde = gemiddelden_n50, steekproefgrootte = factor("n = 50", niveaus))
+
+df_alle <- bind_rows(df_n1, df_n5, df_n10, df_n30, df_n50)
+
+kleuren <- c("n = 1" = "#117733", "n = 5" = "#DDCC77",
+             "n = 10" = "#ADA601", "n = 30" = "#4477AA", "n = 50" = "#EE99CC")
+
+p_populatie <- ggplot(tibble(waarde = populatie), aes(x = waarde)) +
+  geom_histogram(bins = 50, fill = "#117733", alpha = 0.7, color = "white") +
+  labs(title = "De oorspronkelijke populatie (uniform verdeeld)",
+       x = "Waarde", y = "Frequentie") +
+  theme_minimal(base_size = 13)
+
+maak_hist <- function(df, titel) {
+  ggplot(df, aes(x = gemiddelde)) +
+    geom_histogram(bins = 50, fill = "#ADA601", alpha = 0.7, color = "white") +
+    xlim(0, 100) +
+    labs(title = titel, x = "Steekproefgemiddelde", y = "Frequentie") +
+    theme_minimal(base_size = 13)
+}
+
+p_n1  <- maak_hist(df_n1,  "Steekproefverdeling van gemiddelden (n = 1)")
+p_n5  <- maak_hist(df_n5,  "Steekproefverdeling van gemiddelden (n = 5)")
+p_n10 <- maak_hist(df_n10, "Steekproefverdeling van gemiddelden (n = 10)")
+p_n30 <- maak_hist(df_n30, "Steekproefverdeling van gemiddelden (n = 30)")
+p_n50 <- maak_hist(df_n50, "Steekproefverdeling van gemiddelden (n = 50)")
+
+p_alle <- ggplot(df_alle, aes(x = gemiddelde, fill = steekproefgrootte)) +
+  geom_histogram(bins = 40, alpha = 0.7, color = "white") +
+  facet_wrap(~steekproefgrootte, nrow = 2) +
+  xlim(0, 100) +
+  scale_fill_manual(values = kleuren) +
+  labs(title = "Alle steekproefgroottes naast elkaar",
+       x = "Steekproefgemiddelde", y = "Frequentie") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "none")
+
+p_densiteit <- ggplot(df_alle, aes(x = gemiddelde, color = steekproefgrootte)) +
+  geom_density(linewidth = 1.2) +
+  xlim(0, 100) +
+  scale_color_manual(values = kleuren) +
+  labs(title = "Dichtheidskurven per steekproefgrootte",
+       x = "Steekproefgemiddelde", y = "Dichtheid", color = "Steekproefgrootte") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "top")
+
+p_normaal_overlay <- ggplot(df_n50, aes(x = gemiddelde)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 50,
+                 fill = "#ADA601", alpha = 0.6, color = "white") +
+  stat_function(fun = dnorm,
+                args = list(mean = mean(df_n50$gemiddelde), sd = sd(df_n50$gemiddelde)),
+                color = "#117733", linewidth = 2) +
+  labs(title = "Normale verdeling als fit over de steekproefgemiddelden (n = 50)",
+       x = "Steekproefgemiddelde", y = "Dichtheid") +
+  theme_minimal(base_size = 13)
+```
+
+:::::::::::::: cr-section
+
+Stel je voor: Fleur werkt bij een marktonderzoeksbureau en moet de gemiddelde tevredenheid van internetgebruikers meten. Haar data is echter helemaal niet normaal verdeeld — de populatie is een warboel van lage en hoge waarden, min of meer gelijkmatig gespreid. *Hoe kan Fleur ooit betrouwbare uitspraken doen met zulke data?* Dat is precies waar de centrale limietstelling om de hoek komt kijken. @cr-populatie
+
+::: {#cr-populatie}
+```{r warning=F, echo=F, message=F}
+p_populatie
+```
+:::
+
+De populatie volgt een **uniforme verdeling**: elke waarde tussen 0 en 100 is even waarschijnlijk. Er zit geen bult in het midden, geen piek — gewoon een platte rechthoek. Dit is het startpunt.
+
+Maar wat gebeurt er als Fleur niet één enkele waarde neemt, maar het **gemiddelde van een kleine steekproef** berekent? We beginnen heel klein: steekproeven van slechts **1 persoon**. Als we dat 10.000 keer herhalen, krijgen we 10.000 steekproefgemiddelden. @cr-n1
+
+::: {#cr-n1}
+```{r warning=F, echo=F, message=F}
+p_n1
+```
+:::
+
+Niet echt verrassend: de verdeling ziet er nog steeds uniform uit. Dat klopt ook — als je maar één persoon vraagt, ben je niet verder dan de originele data.
+
+Nu trekken we steekproeven van **5 personen** en berekenen we het gemiddelde van elk groepje. @cr-n5
+
+::: {#cr-n5}
+```{r warning=F, echo=F, message=F}
+p_n5
+```
+:::
+
+Zie je dat? De verdeling wordt al **minder plat**. Er vormt zich een lichte bult naar het midden toe — extreme waarden worden minder waarschijnlijk. Dat is logisch: het gemiddelde van vijf willekeurige waarden schommelt minder wild dan één waarde alleen.
+
+We stappen op naar **steekproeven van 10 personen**. @cr-n10
+
+::: {#cr-n10}
+```{r warning=F, echo=F, message=F}
+p_n10
+```
+:::
+
+De piek in het midden wordt nog duidelijker en de staarten worden smaller. De vorm begint ergens op te lijken — maar op wat precies?
+
+In veel handboeken wordt **n = 30** genoemd als de vuistregel: bij 30 observaties per steekproef zou de steekproefverdeling van het gemiddelde al nagenoeg normaal zijn. Laten we dat eens bekijken. @cr-n30
+
+::: {#cr-n30}
+```{r warning=F, echo=F, message=F}
+p_n30
+```
+:::
+
+Inderdaad! De symmetrie, de hoge piek in het midden, de geleidelijk aflopende staarten — dit lijkt sterk op een normale verdeling. En dat terwijl de oorspronkelijke populatie helemaal niet normaal was!
+
+En als we nog verder gaan naar **50 observaties per steekproef**? @cr-n50
+
+::: {#cr-n50}
+```{r warning=F, echo=F, message=F}
+p_n50
+```
+:::
+
+De verdeling is nu nog meer normaal. Dit is het patroon dat de centrale limietstelling beschrijft: hoe groter je steekproeven, hoe meer de steekproefgemiddelden zich gedragen als een normale verdeling — ongeacht hoe vreemd de originele data verdeeld was.
+
+Laten we alle steekproefgroottes naast elkaar zetten om het patroon in één oogopslag te zien. @cr-alle
+
+::: {#cr-alle}
+```{r warning=F, echo=F, message=F}
+p_alle
+```
+:::
+
+Van links boven naar rechts onder: chaos maakt plaats voor orde. Elke keer dat de steekproefgrootte toeneemt, wordt de verdeling symmetrischer en normaalvormiger.
+
+Met dichtheidskurven wordt het patroon nog duidelijker zichtbaar. @cr-densiteit
+
+::: {#cr-densiteit}
+```{r warning=F, echo=F, message=F}
+p_densiteit
+```
+:::
+
+De groene lijn (n = 1) is nog volledig plat. De gele lijn (n = 5) begint al een bult te tonen. De blauwe en roze lijnen (n = 30 en n = 50) zijn bijna identiek — beide keurig klokvormig.
+
+Tot slot leggen we de theoretische normale verdeling als een curve over de steekproefgemiddelden van n = 50. @cr-normaal
+
+::: {#cr-normaal}
+```{r warning=F, echo=F, message=F}
+p_normaal_overlay
+```
+:::
+
+De groene curve past nagenoeg perfect over het histogram. Dit is geen toeval — dit is de centrale limietstelling in actie.
+
+Terug naar Fleur: zij hoeft niet in paniek te raken omdat haar data niet normaal verdeeld is. Zolang ze maar grote genoeg steekproeven trekt (n = 30 is doorgaans voldoende), zal haar **steekproefgemiddelde** zich normaal gedragen. Dat betekent dat ze gewoon t-testen, ANOVA en regressie kan gebruiken — zelfs als de onderliggende populatie een platte, uniforme verdeling heeft. *De centrale limietstelling is precies de reden waarom statistiek werkt in de echte wereld.*
+
+::::::::::::::

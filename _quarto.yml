@@ -99,12 +99,28 @@ website:
             
       - section: "Rapporteren"
         href: Rapporteren.qmd
-        contents: 
+        contents:
           - text: "t-test rapporteren"
             href: t_test_Rapportage.qmd
           - text: "ANOVA rapporteren"
             href: ANOVA_Rapportage.qmd
-            
+
+      - section: "Concepten in beeld"
+        href: Scrollytelling.qmd
+        contents:
+          - text: "OLS uitgelegd"
+            href: Scrollytelling_pages/OLS.qmd
+          - text: "R-kwadraat uitgelegd"
+            href: Scrollytelling_pages/R_kwadraat.qmd
+          - text: "Betrouwbaarheidsintervallen"
+            href: Scrollytelling_pages/CI.qmd
+          - text: "De t-toets"
+            href: Scrollytelling_pages/T_toets_test.qmd
+          - text: "De normaalverdeling"
+            href: Scrollytelling_pages/NormaalVerdeling_test.qmd
+          - text: "Centrale limietstelling"
+            href: Scrollytelling_pages/CentraleLimietstelling_test.qmd
+
       - text: "Screencasts"
         href: Screencasts.qmd
         

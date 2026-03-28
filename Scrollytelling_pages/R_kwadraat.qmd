@@ -1,0 +1,384 @@
+---
+title: "R-kwadraat uitgelegd"
+lang: be-nl
+format:
+  closeread-html:
+    embed-resources: true
+sidebar: false
+---
+
+[← Concepten in beeld](../Scrollytelling.qmd)
+
+Bij regressieanalyse schatten we een rechte die het verband tussen twee variabelen zo goed mogelijk samenvat. Maar *hoe goed* doet die rechte het eigenlijk? Is het model een grote verbetering ten opzichte van niets weten, of stelt het maar weinig voor?
+
+Dat is precies de vraag die **R-kwadraat** (ook geschreven als $R^2$) beantwoordt. R-kwadraat is een maat voor **modelfit**: het vertelt ons welk deel van de totale variabiliteit in de uitkomstvariabele door het regressiemodel verklaard wordt.
+
+Om R-kwadraat te begrijpen, moeten we drie bouwstenen kennen: de **TSS** (Total Sum of Squares), de **RSS** (Regression Sum of Squares) en de **SSE** (Sum of Squares of Errors). Scroll rustig door naar beneden — we bouwen dit stap voor stap op.
+
+```{r warning=F, echo=F, message=F}
+library(tidyverse)
+
+set.seed(1975)
+
+Uren        <- rnorm(20)
+Error       <- rnorm(20, sd = 1.2)
+Examenscore <- 11 + 3.5 * Uren + Error
+
+Data <- tibble(Uren, Examenscore)
+
+# Model fitten
+M1 <- lm(Examenscore ~ Uren, data = Data)
+Data$Voorspelling <- fitted(M1)
+
+# Globaal gemiddelde
+grand_mean <- mean(Data$Examenscore)
+
+# Kwadraten berekenen
+TSS <- sum((Data$Examenscore - grand_mean)^2)
+SSE <- sum((Data$Examenscore - Data$Voorspelling)^2)
+RSS <- sum((Data$Voorspelling - grand_mean)^2)
+R2  <- RSS / TSS
+
+# Observatie-ID toevoegen
+Data$ID <- seq_len(nrow(Data))
+
+# Basisplot
+P_basis <- ggplot(Data, aes(x = Uren, y = Examenscore)) +
+  geom_point(size = 2.5, color = "gray30") +
+  theme_minimal(base_size = 14) +
+  labs(x = "Uren gestudeerd (z-score)", y = "Examenscore")
+```
+
+:::::::::::::: cr-section
+
+We starten met een vertrouwd datasetje: het verband tussen het aantal uren dat studenten gestudeerd hebben (uitgedrukt als z-score) en hun behaalde examenscore. @cr-data
+
+::: {#cr-data}
+```{r warning=F, echo=F, message=F}
+P_basis
+```
+:::
+
+*Maar wat is eigenlijk een goede voorspelling als we geen regressiemodel zouden hebben?*
+
+Het simpelste antwoord: het **gemiddelde** van de examenscore. Als je niets weet over iemand, is het gemiddelde ($\bar{y}$ = `r round(grand_mean, 2)`) je beste gok. We noemen dit het **nulmodel** — de horizontale stippellijn doorheen de data. @cr-nulmodel
+
+::: {#cr-nulmodel}
+```{r warning=F, echo=F, message=F}
+P_basis +
+  geom_hline(
+    yintercept = grand_mean,
+    color      = "gray50",
+    linetype   = "dashed",
+    linewidth  = 1
+  ) +
+  annotate(
+    "text",
+    x     = max(Data$Uren) - 0.4,
+    y     = grand_mean + 0.4,
+    label = paste0("y-gemiddelde = ", round(grand_mean, 2)),
+    color = "gray40",
+    size  = 4
+  )
+```
+:::
+
+Om de variabiliteit in examenscores beter te zien, laten we de predictor even volledig links liggen. In deze figuur staat elke student als een punt op een rij — gesorteerd op observatienummer. De verticale lijn is het grand mean. De horizontale lijntjes tonen voor elke student hoe ver die afzit van dat gemiddelde. @cr-tss-dots
+
+::: {#cr-tss-dots}
+```{r warning=F, echo=F, message=F}
+ggplot(Data, aes(y = ID, x = Examenscore)) +
+  geom_vline(
+    xintercept = grand_mean,
+    color      = "gray50",
+    linetype   = "dashed",
+    linewidth  = 1
+  ) +
+  geom_segment(
+    aes(y = ID, yend = ID, x = grand_mean, xend = Examenscore),
+    color     = "gray60",
+    linewidth = 0.8,
+    alpha     = 0.7
+  ) +
+  geom_point(size = 2.5, color = "gray30") +
+  annotate(
+    "text",
+    x     = grand_mean,
+    y     = max(Data$ID) + 0.8,
+    label = paste0("ȳ = ", round(grand_mean, 2)),
+    color = "gray40",
+    size  = 4,
+    hjust = 0.5
+  ) +
+  theme_minimal(base_size = 14) +
+  labs(x = "Examenscore", y = "Observatie") +
+  theme(panel.grid.minor = element_blank())
+```
+:::
+
+Zo zien we puur de spreiding in de uitkomstvariabele: sommige studenten scoren ver boven het gemiddelde, anderen ver eronder. Al die afwijkingen samen vormen de totale variabiliteit die ons model probeert te verklaren.
+
+**TSS — de totale variabiliteit.** De *Total Sum of Squares* meet hoeveel de examenscores onderling variëren. Voor elk individueel punt berekenen we de afstand tot het algemeen gemiddelde (de grand mean) $\bar{y}$, kwadrateren we die afstand, en tellen we alles op: $TSS = \sum(y_i - \bar{y})^2$.
+
+In de figuur zie je die afstanden als verticale lijntjes van elk punt naar de stippellijn. Hoe groter de lijntjes, hoe meer variabiliteit er in de data zit. @cr-tss
+
+::: {#cr-tss}
+```{r warning=F, echo=F, message=F}
+P_basis +
+  geom_hline(
+    yintercept = grand_mean,
+    color      = "gray50",
+    linetype   = "dashed",
+    linewidth  = 1
+  ) +
+  geom_segment(
+    data = Data,
+    aes(x = Uren, xend = Uren,
+        y = grand_mean, yend = Examenscore),
+    color     = "gray60",
+    linetype  = "solid",
+    linewidth = 0.8,
+    alpha     = 0.7
+  ) +
+  annotate(
+    "text",
+    x     = max(Data$Uren) - 0.4,
+    y     = grand_mean + 0.4,
+    label = paste0("y-gemiddelde = ", round(grand_mean, 2)),
+    color = "gray40",
+    size  = 4
+  ) +
+  labs(subtitle = paste0("TSS = ", round(TSS, 1)))
+```
+:::
+
+De TSS is de totale "berg aan variabiliteit" die ons model moet proberen te verklaren. 
+
+::: {#cr-regressie}
+```{r warning=F, echo=F, message=F}
+P_basis +
+  geom_hline(
+    yintercept = grand_mean,
+    color      = "gray50",
+    linetype   = "dashed",
+    linewidth  = 1
+  ) +
+  geom_smooth(
+    method    = "lm",
+    se        = FALSE,
+    color     = "#ADA601",
+    linewidth = 1.2
+  ) +
+  annotate(
+    "text",
+    x     = max(Data$Uren) - 0.4,
+    y     = grand_mean + 0.4,
+    label = paste0("y-gemiddelde = ", round(grand_mean, 2)),
+    color = "gray40",
+    size  = 4
+  )
+```
+:::
+
+Nu voegen we de OLS-regressielijn toe — de rechte die de predictiefouten minimaliseert. @cr-regressie
+
+De gele lijn is ons regressiemodel. Nu kunnen we de TSS in twee stukken opdelen: het deel dat het model *wel* verklaart, en het deel dat het model *niet* verklaart.
+
+**SSE — wat het model niet verklaart.** De *Sum of Squares of Errors* meet de resterende variabiliteit nadat het model zijn werk heeft gedaan. Voor elk punt berekenen we de afstand van de werkelijke score tot de voorspelde score op de regressielijn: $SSE = \sum(y_i - \hat{y}_i)^2$. Dit zijn de **residuen** — de fouten die het model nog steeds maakt. @cr-sse
+
+::: {#cr-sse}
+```{r warning=F, echo=F, message=F}
+P_basis +
+  geom_hline(
+    yintercept = grand_mean,
+    color      = "gray50",
+    linetype   = "dashed",
+    linewidth  = 1
+  ) +
+  geom_smooth(
+    method    = "lm",
+    se        = FALSE,
+    color     = "#ADA601",
+    linewidth = 1.2
+  ) +
+  geom_segment(
+    data = Data,
+    aes(x = Uren, xend = Uren,
+        y = Voorspelling, yend = Examenscore),
+    color     = "red",
+    linewidth = 0.8,
+    alpha     = 0.8
+  ) +
+  annotate(
+    "text",
+    x     = max(Data$Uren) - 0.1,
+    y     = grand_mean + 0.4,
+    label = paste0("y-gemiddelde = ", round(grand_mean, 2)),
+    color = "gray40",
+    size  = 4
+  ) +
+  labs(subtitle = paste0("SSE = ", round(SSE, 1)))
+```
+:::
+
+De rode lijntjes zijn de residuen. Hoe kleiner die zijn, hoe beter het model past. Maar er is ook een ander deel van de TSS — het deel dat het model wél verklaard heeft.
+
+**RSS — wat het model wel verklaart.** De *Regression Sum of Squares* meet hoeveel variabiliteit het model wegverklaart. We berekenen voor elk punt de afstand van de voorspelde waarde $\hat{y}_i$ tot het grand mean $\bar{y}$: $RSS = \sum(\hat{y}_i - \bar{y})^2$. Als de regressielijn stijgt of daalt, liggen de voorspelde waarden ver van het grand mean — en verklaart het model veel. @cr-rss
+
+::: {#cr-rss}
+```{r warning=F, echo=F, message=F}
+P_basis +
+  geom_hline(
+    yintercept = grand_mean,
+    color      = "gray50",
+    linetype   = "dashed",
+    linewidth  = 1
+  ) +
+  geom_smooth(
+    method    = "lm",
+    se        = FALSE,
+    color     = "#ADA601",
+    linewidth = 1.2
+  ) +
+  geom_segment(
+    data = Data,
+    aes(x = Uren, xend = Uren,
+        y = grand_mean, yend = Voorspelling),
+    color     = "#117733",
+    linewidth = 0.8,
+    alpha     = 0.8
+  ) +
+  annotate(
+    "text",
+    x     = max(Data$Uren) - 0.4,
+    y     = grand_mean + 0.4,
+    label = paste0("y-gemiddelde = ", round(grand_mean, 2)),
+    color = "gray40",
+    size  = 4
+  ) +
+  labs(subtitle = paste0("RSS = ", round(RSS, 1)))
+```
+:::
+
+De groene lijntjes zijn de RSS: de afstand tussen het nulmodel (stippellijn) en wat het regressiemodel voorspelt. Dit is de variabiliteit die het model wegverklaart ten opzichte van puur het gemiddelde gebruiken.
+
+De drie maten hangen mooi samen: de totale variabiliteit (TSS) splitst netjes op in een verklaard deel (RSS) en een onverklaard deel (SSE). @cr-formule
+
+[@cr-formule]{highlight="cr-span-tss"}
+
+De TSS is de volledige spreiding in de uitkomst.
+
+[@cr-formule]{highlight="cr-span-rss"}
+
+De RSS is het groene stuk — de variabiliteit die het model verklaart.
+
+[@cr-formule]{highlight="cr-span-sse"}
+
+De SSE is het rode stuk — de variabiliteit die het model niet verklaart.
+
+[@cr-formule]{highlight="cr-span-r2"}
+
+En R-kwadraat is simpelweg de verhouding: welk aandeel van de totale taart heeft het model opgeslokt?
+
+| {#cr-formule}
+| [TSS = RSS + SSE]{#cr-span-tss}
+|
+| [TSS]{#cr-span-tss} = [RSS]{#cr-span-rss} + [SSE]{#cr-span-sse}
+|
+| Totale variabiliteit = Verklaarde + Onverklaarde variabiliteit
+|
+| [R-kwadraat = RSS / TSS = 1 - SSE / TSS]{#cr-span-r2}
+
+We kunnen dit ook stap voor stap zelf berekenen in R. @cr-code
+
+::: {#cr-code}
+```{r warning=F, echo=T, message=F}
+# Model fitten
+M1 <- lm(Examenscore ~ Uren, data = Data)
+
+# Grand mean
+grand_mean <- mean(Data$Examenscore)
+
+# Voorspelde waarden uit het model
+Data$Voorspelling <- fitted(M1)
+
+# TSS: totale variabiliteit rond het grand mean
+TSS <- sum((Data$Examenscore - grand_mean)^2)
+
+# SSE: residuen — wat het model niet verklaart
+SSE <- sum((Data$Examenscore - Data$Voorspelling)^2)
+
+# RSS: wat het model wel verklaart
+RSS <- sum((Data$Voorspelling - grand_mean)^2)
+
+# R-kwadraat
+R2 <- RSS / TSS
+R2
+```
+:::
+
+Tot slot zetten we alle drie de componenten samen in één figuur: de grijze lijntjes zijn de TSS, de rode de SSE, en de groene de RSS. @cr-alles
+
+::: {#cr-alles}
+```{r warning=F, echo=F, message=F}
+P_basis +
+  geom_hline(
+    yintercept = grand_mean,
+    color      = "gray50",
+    linetype   = "dashed",
+    linewidth  = 1
+  ) +
+  geom_smooth(
+    method    = "lm",
+    se        = FALSE,
+    color     = "#ADA601",
+    linewidth = 1.2
+  ) +
+  geom_segment(
+    data = Data,
+    aes(x = Uren + 0.04, xend = Uren + 0.04,
+        y = grand_mean, yend = Examenscore),
+    color     = "gray70",
+    linewidth = 0.6,
+    alpha     = 0.5
+  ) +
+  geom_segment(
+    data = Data,
+    aes(x = Uren, xend = Uren,
+        y = grand_mean, yend = Voorspelling),
+    color     = "#117733",
+    linewidth = 0.8,
+    alpha     = 0.9
+  ) +
+  geom_segment(
+    data = Data,
+    aes(x = Uren - 0.04, xend = Uren - 0.04,
+        y = Voorspelling, yend = Examenscore),
+    color     = "red",
+    linewidth = 0.8,
+    alpha     = 0.9
+  ) +
+  annotate(
+    "text",
+    x     = max(Data$Uren) - 0.1,
+    y     = grand_mean + 0.4,
+    label = paste0("y-gemiddelde = ", round(grand_mean, 2)),
+    color = "gray40",
+    size  = 4
+  ) +
+  labs(
+    subtitle = paste0(
+      "TSS = ", round(TSS, 1),
+      "  |  RSS = ", round(RSS, 1),
+      "  |  SSE = ", round(SSE, 1),
+      "  |  R-kwadraat = ", round(R2, 3)
+    )
+  )
+```
+:::
+
+Voor deze data geldt $R^2 =$ `r round(R2, 3)`. Dat betekent dat ons regressiemodel **`r round(R2 * 100, 1)`% van de variabiliteit** in de examenscores verklaart aan de hand van het aantal uren studeren. De overige `r round((1 - R2) * 100, 1)`% wordt bepaald door factoren die niet in ons model zitten.
+
+*Hoe dichter R-kwadraat bij 1, hoe beter het model de variabiliteit verklaart. Hoe dichter bij 0, hoe minder het model toevoegt ten opzichte van het nulmodel.*
+
+::::::::::::::

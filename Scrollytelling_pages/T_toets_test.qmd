@@ -1,0 +1,287 @@
+---
+title: "De t-toets voor onafhankelijke steekproeven uitgelegd"
+lang: be-nl
+format:
+  closeread-html:
+    embed-resources: true
+sidebar: false
+---
+
+[← Concepten in beeld](../Scrollytelling.qmd)
+
+De **t-toets voor onafhankelijke steekproeven** is een van de meest gebruikte statistische toetsen in onderzoek. We gebruiken deze toets wanneer we twee groepen met elkaar willen vergelijken op basis van hun gemiddelden, en we willen weten of een waargenomen verschil tussen die gemiddelden statistisch significant is.
+
+Maar hoe werkt deze toets eigenlijk? Wat berekenen we precies, en hoe vertellen we aan de hand van getallen of er wel of geen verschil is? In deze scrollytelling nemen we je mee door de logica van de t-toets, stap voor stap. We beginnen met het formulerenvan onze hypothesen, gaan dan over tot het berekenen van de toetsingsgrootheid, en zien hoe die grootte bepaalt of we onze hypothesen verwerpen of aanvaarden.
+
+Scroll rustig door naar beneden en ga mee in dit statistisch verhaal.
+
+```{r warning=F, echo=F, message=F}
+library(tidyverse)
+library(knitr)
+
+# Voorbeelddata: twee groepen studenten
+set.seed(42)
+
+# Groep 1: studenten die klassikaal les kregen
+Klassikaal <- tibble(
+  Groep = "Klassikaal",
+  Score = rnorm(25, mean = 72, sd = 8),
+  ID = 1:25
+)
+
+# Groep 2: studenten die online les kregen
+Online <- tibble(
+  Groep = "Online",
+  Score = rnorm(25, mean = 68, sd = 9),
+  ID = 1:25
+)
+
+Data <- bind_rows(Klassikaal, Online)
+
+# Bereken basisstatistieken
+stats_summary <- Data %>%
+  group_by(Groep) %>%
+  summarise(
+    n = n(),
+    mean = mean(Score),
+    sd = sd(Score),
+    se = sd / sqrt(n),
+    .groups = "drop"
+  )
+
+klassikaal_mean <- stats_summary %>% filter(Groep == "Klassikaal") %>% pull(mean)
+klassikaal_sd <- stats_summary %>% filter(Groep == "Klassikaal") %>% pull(sd)
+klassikaal_n <- stats_summary %>% filter(Groep == "Klassikaal") %>% pull(n)
+
+online_mean <- stats_summary %>% filter(Groep == "Online") %>% pull(mean)
+online_sd <- stats_summary %>% filter(Groep == "Online") %>% pull(sd)
+online_n <- stats_summary %>% filter(Groep == "Online") %>% pull(n)
+
+# Verschil in gemiddelden
+verschil_gemiddelden <- klassikaal_mean - online_mean
+
+# Gepoolde standaardafwijking (voor gelijke varianties)
+sp_squared <- ((klassikaal_n - 1) * klassikaal_sd^2 + (online_n - 1) * online_sd^2) / (klassikaal_n + online_n - 2)
+sp <- sqrt(sp_squared)
+
+# Standaardfout van het verschil
+se_verschil <- sp * sqrt(1/klassikaal_n + 1/online_n)
+
+# t-waarde
+t_waarde <- verschil_gemiddelden / se_verschil
+
+# Vrijheidsgraden
+df <- klassikaal_n + online_n - 2
+
+# p-waarde (tweezijdig)
+p_waarde <- 2 * (1 - pt(abs(t_waarde), df))
+
+# Kritieke waarde bij alpha = 0.05
+kritieke_waarde <- qt(0.975, df)
+
+# Visualisaties
+
+# Plot 1: Twee groepen als puntenwolk
+P1 <- ggplot(Data, aes(x = Groep, y = Score, color = Groep)) +
+  geom_jitter(width = 0.15, alpha = 0.6, size = 2) +
+  geom_point(data = stats_summary, aes(x = Groep, y = mean),
+             color = "darkred", size = 5, shape = 3, stroke = 2) +
+  scale_color_manual(values = c("Klassikaal" = "#0072B2", "Online" = "#E69F00")) +
+  theme_minimal() +
+  labs(title = "Scores van twee groepen studenten",
+       x = "", y = "Examenuitslag (0-100)",
+       color = "Onderwijsvorm") +
+  ylim(40, 100) +
+  theme(legend.position = "bottom")
+
+# Plot 2: Histogram + gemiddelden
+P2 <- ggplot(Data, aes(x = Score, fill = Groep)) +
+  geom_histogram(alpha = 0.6, bins = 8) +
+  geom_vline(data = stats_summary, aes(xintercept = mean, color = Groep),
+             linetype = "dashed", linewidth = 1.2) +
+  scale_fill_manual(values = c("Klassikaal" = "#0072B2", "Online" = "#E69F00")) +
+  scale_color_manual(values = c("Klassikaal" = "#0072B2", "Online" = "#E69F00")) +
+  theme_minimal() +
+  labs(title = "Verdeling van scores per groep",
+       x = "Examenuitslag", y = "Frequentie",
+       fill = "Onderwijsvorm", color = "Groep") +
+  theme(legend.position = "bottom")
+
+# Plot 3: t-verdeling met kritieke gebied
+x_seq <- seq(-4, 4, length.out = 200)
+y_seq <- dt(x_seq, df)
+
+P3 <- ggplot(data = tibble(x = x_seq, y = y_seq), aes(x = x, y = y)) +
+  geom_line(linewidth = 1) +
+  geom_area(data = tibble(x = seq(-4, -kritieke_waarde, length.out = 100)) %>%
+              mutate(y = dt(x, df)),
+            aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  geom_area(data = tibble(x = seq(kritieke_waarde, 4, length.out = 100)) %>%
+              mutate(y = dt(x, df)),
+            aes(x = x, y = y), fill = "red", alpha = 0.3) +
+  geom_vline(xintercept = t_waarde, color = "darkred", linetype = "solid", linewidth = 1.2) +
+  theme_minimal() +
+  labs(title = "t-verdeling met kritieke waarden",
+       x = "t-waarde", y = "Dichtheid",
+       subtitle = "Rode gebieden = verwerpingsregio's (α = 0.05)") +
+  annotate("text", x = t_waarde, y = max(y_seq) * 0.8,
+           label = paste("t =", round(t_waarde, 2)), color = "darkred", size = 4)
+
+```
+
+:::::::::::::: cr-section
+
+Stel je voor: Anna doet onderzoek naar het effect van verschillende onderwijsvormen op examenprestaties. Ze verzamelt gegevens van 25 studenten die klassikaal les kregen, en van 25 studenten die online les volgden. Nu wil zij weten: **is er werkelijk een verschil in examenprestatie tussen deze twee groepen, of is dit toeval vanwege steekproefvariatie?**
+
+Dit is waar de t-toets voor onafhankelijke steekproeven om de hoek komt kijken.
+
+@cr-data
+
+::: {#cr-data}
+```{r warning=F, echo=F, message=F}
+P1
+```
+:::
+
+Voordat we kunnen gaan toetsen, moeten we onze onderzoeksvraag vertalen in **statistische hypothesen**. Dit zijn twee tegengestelde stellingen over de populatie.
+
+De **nulhypothese** (meestal aangeduid als H₀) stelt dat er **geen verschil** is tussen de twee groepen in de populatie. De **alternatieve hypothese** (H₁) stelt het tegengestelde: dat er wel een verschil is.
+
+Voor Anna's onderzoek zien die er als volgt uit:
+
+| {#cr-hypothesen}
+| **Nulhypothese (H₀):** μ_klassikaal = μ_online
+|
+| Of in woorden: "Het gemiddelde examenresultaat is hetzelfde voor klassikaal en online onderwijs."
+|
+| **Alternatieve hypothese (H₁):** μ_klassikaal ≠ μ_online
+|
+| Of in woorden: "Het gemiddelde examenresultaat verschilt tussen klassikaal en online onderwijs."
+|
+| (De symbolen μ verwijzen naar populatiegemiddelden, niet steekproefgemiddelden!)
+
+@cr-hypothesen
+
+We zien dat Anna een [**tweezijdige toets**]{#cr-tweezijdig} formuleert: zij vraagt of de gemiddelden *verschillen*, niet of het ene specifiek hoger of lager is dan het ander. Dit is de standaard.
+
+[@cr-hypothesen]{highlight="cr-tweezijdig"}
+
+Mochten we van tevoren weten dat klassikaal onderwijs *altijd* beter zou zijn (of slechter), dan zouden we een eenzijdige hypothese formuleren: H₁: μ_klassikaal > μ_online. Maar we stellen ons nu neutraal op.
+
+Goed, we hebben onze hypothesen. Nu begint de berekening!
+
+Het hart van de t-toets is de **toetsingsgrootheid**, meestal aangeduid als t. Deze waarde vertelt ons hoe groot het waargenomen verschil is *ten opzichte van de onzekerheid* waarmee we dat verschil meten.
+
+::: {#cr-formule-t}
+```{r warning=F, echo=F, message=F}
+# Zet de formule in een mooie layout
+cat("De t-waarde wordt berekend als:\n\n")
+cat("t = (M₁ - M₂) / SE(M₁ - M₂)\n\n")
+cat("waarbij:\n")
+cat("• M₁ en M₂ = de gemiddelden van groep 1 en groep 2\n")
+cat("• SE(M₁ - M₂) = de standaardfout van het verschil in gemiddelden\n")
+```
+:::
+
+@cr-formule-t
+
+De formule lijkt eenvoudig: we delen het verschil in gemiddelden door de onzekerheid (standaardfout). Hoe **groter** het verschil en hoe **kleiner** de onzekerheid, hoe groter onze t-waarde — en hoe meer bewijs we hebben tegen de nulhypothese.
+
+Hoe berekenen we die standaardfout van het verschil? Dat gaat in stappen:
+
+::: {#cr-berekening-stap1}
+```{r warning=F, echo=T, message=F}
+# Stap 1: Bereken basisstatistieken per groep
+klassikaal_mean <- mean(Data$Score[Data$Groep == "Klassikaal"])
+online_mean <- mean(Data$Score[Data$Groep == "Online"])
+klassikaal_sd <- sd(Data$Score[Data$Groep == "Klassikaal"])
+online_sd <- sd(Data$Score[Data$Groep == "Online"])
+n1 <- 25
+n2 <- 25
+
+cat("Groep Klassikaal: M =", round(klassikaal_mean, 2), ", SD =", round(klassikaal_sd, 2), "\n")
+cat("Groep Online:     M =", round(online_mean, 2), ", SD =", round(online_sd, 2), "\n")
+cat("\nVerschil in gemiddelden: M₁ - M₂ =", round(klassikaal_mean - online_mean, 2))
+```
+:::
+
+@cr-berekening-stap1
+
+Stap twee: we berekenen de **gepoolde standaardafwijking**. Dit is een soort gemiddelde standaardafwijking over beide groepen heen (gewogen naar steekproefomvang):
+
+::: {#cr-berekening-stap2}
+```{r warning=F, echo=T, message=F}
+# Stap 2: Gepoolde standaardafwijking berekenen
+sp_squared <- ((n1 - 1) * klassikaal_sd^2 + (n2 - 1) * online_sd^2) / (n1 + n2 - 2)
+sp <- sqrt(sp_squared)
+
+cat("Gepoolde variantie: Sp² =", round(sp_squared, 2), "\n")
+cat("Gepoolde standaardafwijking: Sp =", round(sp, 2), "\n")
+```
+:::
+
+@cr-berekening-stap2
+
+Nu berekenen we de **standaardfout van het verschil**:
+
+::: {#cr-berekening-stap3}
+```{r warning=F, echo=T, message=F}
+# Stap 3: Standaardfout van het verschil berekenen
+se_verschil <- sp * sqrt(1/n1 + 1/n2)
+
+cat("SE(M₁ - M₂) = Sp × √(1/n₁ + 1/n₂)\n")
+cat("SE(M₁ - M₂) =", round(sp, 2), "× √(1/25 + 1/25)\n")
+cat("SE(M₁ - M₂) =", round(se_verschil, 2), "\n")
+```
+:::
+
+@cr-berekening-stap3
+
+En tenslotte: de **t-waarde**!
+
+::: {#cr-berekening-stap4}
+```{r warning=F, echo=T, message=F}
+# Stap 4: t-waarde berekenen
+t_waarde <- (klassikaal_mean - online_mean) / se_verschil
+df <- n1 + n2 - 2
+
+cat("t = (M₁ - M₂) / SE(M₁ - M₂)\n")
+cat("t =", round(klassikaal_mean - online_mean, 2), "/", round(se_verschil, 2), "\n")
+cat("t =", round(t_waarde, 3), "\n\n")
+cat("Vrijheidsgraden: df = n₁ + n₂ - 2 = 25 + 25 - 2 =", df)
+```
+:::
+
+@cr-berekening-stap4
+
+Mooi! We hebben onze toetsingsgrootheid berekend. Maar wat nu? Hoe weten we of deze t-waarde groot genoeg is?
+
+Daarvoor gebruiken we de **t-verdeling**. Dit is een waarschijnlijkheidsverdeling die wij in de steekproef zouden verwachten als de nulhypothese waar zou zijn (dat wil zeggen: als er werkelijk geen verschil in de populatie bestaat).
+
+@cr-t-verdeling
+
+::: {#cr-t-verdeling}
+```{r warning=F, echo=F, message=F}
+P3
+```
+:::
+
+De rode gebieden aan beide uiteinden noemen we de [**verwerpingsregio's**]{#cr-verwerpingsregio}. Als onze berekende t-waarde in één van deze rode gebieden valt, verwerpen we de nulhypothese — we concluderen dat het verschil statistisch significant is.
+
+[@cr-t-verdeling]{highlight="cr-verwerpingsregio"}
+
+De grens tussen acceptatie en verwerping wordt bepaald door ons **significantieniveau**, meestal ingesteld op α = 0.05 (5%). Dit betekent dat we bereid zijn een [**Type I-fout**]{#cr-type1} van 5% te accepteren: de kans dat we de nulhypothese onterecht verwerpen.
+
+[@cr-t-verdeling]{highlight="cr-type1"}
+
+Voor Anna's toets met df = 48 en α = 0.05 zijn de kritieke waarden ongeveer ±2.01. Omdat haar berekende t-waarde (`r round(t_waarde, 2)`) **buiten** dit bereik valt — [ze is groter dan 2.01]{#cr-conclusie-t} — verwerpen we de nulhypothese.
+
+[@cr-t-verdeling]{highlight="cr-conclusie-t"}
+
+Dit betekent: **er is statistische evidence dat klassikaal en online onderwijs tot verschillende examenresultaten leiden**. Het verschil van ongeveer `r round(klassikaal_mean - online_mean, 1)` punten is niet alleen maar toeval; het is statistisch significant.
+
+Natuurlijk is "significant" niet hetzelfde als "groot". Anna's onderzoek toont aan dat het verschil reëel is, maar zij moet nog bepalen of een verschil van `r round(klassikaal_mean - online_mean, 1)` punten ook *praktisch relevant* is. Dat is een vraag voor domain-expertise, niet voor statistiek!
+
+::::::::::::::
+
+Dit was de t-toets voor onafhankelijke steekproeven in een notendop: hypothesen formuleren, de toetsingsgrootheid berekenen, en aan de hand van de t-verdeling bepalen of ons bewijs sterk genoeg is. Met deze kennis ben je klaar voor je eigen onderzoeken!

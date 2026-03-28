@@ -7,6 +7,8 @@ format:
 sidebar: false
 ---
 
+[← Concepten in beeld](../Scrollytelling.qmd)
+
 Een concept dat we in statistiek zeer vaak tegen komen is een **betrouwbaarheidsinterval** ofwel een *Confidence Interval (CI)*. 
 
 Dit concept wordt helaas zeer vaak misbegrepen! 

@@ -1,0 +1,32 @@
+---
+title: "Concepten in beeld"
+---
+
+Statistiek begrijpen is meer dan formules leren en output lezen. Het vraagt inzicht in de *logica* achter de methoden: waarom werkt een techniek zo, en niet anders?
+
+In deze sectie vind je een reeks interactieve uitlegpagina's die statistische concepten visueel opbouwen. Terwijl je naar beneden scrolt, verschijnen stap voor stap figuren, berekeningen en verklaringen — afgestemd op het ritme van je eigen begrip.
+
+De pagina's zijn geen vervanging van de cursusinhoud, maar een aanvulling: een plek om een concept nog eens rustig te verkennen, of om een idee te laten bezinken dat tijdens een contactmoment misschien niet helemaal klikte.
+
+## Beschikbare concepten
+
+### Regressieanalyse
+
+| Pagina | Wat je leert |
+|---|---|
+| [OLS uitgelegd](Scrollytelling_pages/OLS.qmd) | Waarom de methode van de kleinste kwadraten de beste regressielijn oplevert |
+| [R-kwadraat uitgelegd](Scrollytelling_pages/R_kwadraat.qmd) | Wat TSS, RSS en SSE betekenen en hoe R² de modelfit samenvat |
+
+### Statistische inferentie
+
+| Pagina | Wat je leert |
+|---|---|
+| [Betrouwbaarheidsintervallen uitgelegd](Scrollytelling_pages/CI.qmd) | Wat een betrouwbaarheidsinterval echt betekent via herhaalde steekproeftrekking |
+| [De t-toets voor onafhankelijke steekproeven](Scrollytelling_pages/T_toets_test.qmd) | Hoe je hypothesen formuleert en de toetsingsgrootheid berekent |
+
+### Kansverdelingen
+
+| Pagina | Wat je leert |
+|---|---|
+| [De normaalverdeling uitgelegd](Scrollytelling_pages/NormaalVerdeling_test.qmd) | Hoe het gemiddelde en de standaardafwijking de vorm van de curve bepalen |
+| [De centrale limietstelling uitgelegd](Scrollytelling_pages/CentraleLimietstelling_test.qmd) | Waarom steekproefgemiddelden normaal verdeeld worden, ongeacht de populatieverdeling |

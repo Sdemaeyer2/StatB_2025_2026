@@ -7,6 +7,8 @@ format:
 sidebar: false
 ---
 
+[← Concepten in beeld](../Scrollytelling.qmd)
+
 Bij bivariate regressieanalyse trachten we het verband tussen twee kwantitatieve variabelen samen te vatten aan de hand van een **regressierechte** (= ons lineair model). 
 
 Maar *hoe bepalen we welke rechte een goede weerspiegeling is van het verband?*

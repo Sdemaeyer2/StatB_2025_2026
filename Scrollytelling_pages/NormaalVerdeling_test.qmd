@@ -1,0 +1,342 @@
+---
+title: "De Normaalverdeling Uitgelegd"
+lang: be-nl
+format:
+  closeread-html:
+    embed-resources: true
+sidebar: false
+---
+
+[← Concepten in beeld](../Scrollytelling.qmd)
+
+## Waarom deze verdeling zo belangrijk is
+
+Je hebt vast al wel eens gehoord van de "normale verdeling" — en je mag gerust raden dat dit niet zomaar een toevallige naam is. Deze verdeling duikt overal op: in de lengtes van mensen, in examenscores, in meetfouten van wetenschappelijke experimenten, en in veel meer data waaraan statistici zich bezighouden.
+
+Maar *wat is die normale verdeling eigenlijk?* En — nog belangrijker — *hoe verandert hij van vorm afhankelijk van de data die je hebt?*
+
+Hiertoe brengen we je mee op een visueel rondgang door de algebra en de geometrie van deze fundamentele verdeling. Scroll rustig naar beneden, en laat ons samen ontdekken hoe een eenvoudig getal — de standaardafwijking — alles verandert.
+
+```{r warning=F, echo=F, message=F}
+library(tidyverse)
+library(gridExtra)
+
+# Set random seed for reproducibility
+set.seed(2024)
+
+# Generate some realistic data for a first example
+# Let's use exam scores (mean 65, sd 12)
+exam_scores <- rnorm(1000, mean = 65, sd = 12)
+exam_scores <- pmax(0, pmin(100, exam_scores))  # Clip to 0-100
+
+# Create a data frame
+data_exam <- tibble(Score = exam_scores)
+
+# Define the normal distribution function for overlays
+dnorm_data <- function(x, mean = 0, sd = 1) {
+  (1 / (sd * sqrt(2 * pi))) * exp(-0.5 * ((x - mean) / sd)^2)
+}
+
+# Prepare data for the normal curve
+x_seq <- seq(20, 110, length.out = 500)
+
+# Calculate densities for different standard deviations
+# For visualization: scale so density integrates to 1 over the range
+mean_exam <- mean(exam_scores)
+sd_exam <- sd(exam_scores)
+
+normal_curve_12 <- tibble(
+  x = x_seq,
+  density = dnorm(x_seq, mean = mean_exam, sd = 12)
+)
+
+normal_curve_8 <- tibble(
+  x = x_seq,
+  density = dnorm(x_seq, mean = mean_exam, sd = 8)
+)
+
+normal_curve_16 <- tibble(
+  x = x_seq,
+  density = dnorm(x_seq, mean = mean_exam, sd = 16)
+)
+
+# For the 68-95-99.7 illustration
+sd_val <- 12
+mean_val <- 65
+
+# Store for the empirical rule section
+empirical_data <- tibble(
+  x = x_seq,
+  density = dnorm(x_seq, mean = mean_val, sd = sd_val),
+  within_1sd = ifelse(between(x, mean_val - sd_val, mean_val + sd_val), "Ja", "Nee"),
+  within_2sd = ifelse(between(x, mean_val - 2*sd_val, mean_val + 2*sd_val), "Ja", "Nee"),
+  within_3sd = ifelse(between(x, mean_val - 3*sd_val, mean_val + 3*sd_val), "Ja", "Nee")
+)
+```
+
+:::::::::::::: cr-section
+
+Stel je voor: Heidi is docent statistiek en ze heeft zojuist 1000 studenten een examen laten maken. Ze verzamelt al hun scores en wil begrijpen hoe deze verdeling eruitziet. Laat ons naar deze scores kijken.
+
+@cr-histogram-raw
+
+::: {#cr-histogram-raw}
+```{r warning=F, echo=F, message=F}
+ggplot(data_exam, aes(x = Score)) +
+  geom_histogram(binwidth = 5, fill = "#117733", alpha = 0.7, color = "black") +
+  theme_minimal() +
+  labs(
+    title = "Examenscores van 1000 studenten",
+    x = "Score",
+    y = "Aantal studenten"
+  ) +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title = element_text(size = 12)
+  )
+```
+:::
+
+Interessant! De scores vormen een berghachtige vorm: veel studenten scoren rond het midden, en steeds minder naar de uitersten. Laat ons zien hoe glad dit patroon eigenlijk is. @cr-histogram-with-curve
+
+::: {#cr-histogram-with-curve}
+```{r warning=F, echo=F, message=F}
+ggplot(data_exam, aes(x = Score)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 5, fill = "#117733", alpha = 0.5, color = "black") +
+  geom_line(data = normal_curve_12, aes(x = x, y = density), color = "red", size = 1.2) +
+  theme_minimal() +
+  labs(
+    title = "Histogram met de normale curve",
+    x = "Score",
+    y = "Dichtheid"
+  ) +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title = element_text(size = 12)
+  )
+```
+:::
+
+Kijk daar! De rode curve glijd er perfect overheen. Dit is de **normale verdeling** (ook wel "Gaussische verdeling" genoemd, naar de wiskundige Carl Friedrich Gauss). Het patroon van deze curve wordt volledig bepaald door slechts twee getallen: het gemiddelde en de standaardafwijking.
+
+| {#cr-text-intro}
+| Het gemiddelde van deze examenscores bedraagt [**65 punten**]{#cr-gemiddelde}.
+|
+| Dit gemiddelde bepaalt waar de curve is gecentreerd.
+| Als alle scores met 10 punten omhoog zouden gaan, zou de curve ook 10 punten naar rechts verschuiven — maar de [vorm]{#cr-vorm1} zou hetzelfde blijven.
+
+[@cr-text-intro]{highlight="cr-gemiddelde"}
+
+De rode lijn hier markeert precies dat gemiddelde van 65. De curve is symmetrisch rond dit punt: evenveel studenten scoren 60 als 70, evenveel scoren 55 als 75, enzovoort.
+
+@cr-histogram-mean
+
+::: {#cr-histogram-mean}
+```{r warning=F, echo=F, message=F}
+ggplot(data_exam, aes(x = Score)) +
+  geom_histogram(aes(y = after_stat(density)), binwidth = 5, fill = "#117733", alpha = 0.5, color = "black") +
+  geom_line(data = normal_curve_12, aes(x = x, y = density), color = "red", size = 1.2) +
+  geom_vline(xintercept = mean_exam, color = "darkblue", linetype = "dashed", size = 1) +
+  annotate("text", x = mean_exam + 3, y = 0.032, label = "Gemiddelde (μ = 65)", color = "darkblue", size = 4) +
+  theme_minimal() +
+  labs(
+    title = "Het gemiddelde bepaalt het middelpunt",
+    x = "Score",
+    y = "Dichtheid"
+  ) +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title = element_text(size = 12)
+  )
+```
+:::
+
+**De standaardafwijking bepaalt de vorm.** Nu komt het interessante gedeelte. Die rode curve zou veel anders kunnen uitzien als de scores meer verspreiding of juist veel concentratie zouden hebben. Daarvoor introduceren we de **standaardafwijking** — een maat voor hoe wijd de data "uitwaaiert" rond het gemiddelde.
+
+| {#cr-text-sd}
+| De standaardafwijking van deze scores bedraagt [**ongeveer 12 punten**]{#cr-sd-waarde}.
+|
+| Dit getal bepaalt hoe steil of hoe plat de curve is.
+| Een [kleine σ]{#cr-sd-klein} leidt tot een puntige, smalle curve (scores liggen dicht bij het gemiddelde).
+| Een [grote σ]{#cr-sd-groot} leidt tot een platte, brede curve (scores liggen ver uit elkaar).
+
+[@cr-text-sd]{highlight="cr-sd-waarde"}
+
+Laat ons dit zien met een vergelijking: wat zou er gebeuren als de standaardafwijking veel kleiner was?
+
+@cr-compare-sd-small
+
+::: {#cr-compare-sd-small}
+```{r warning=F, echo=F, message=F}
+comparison_data <- tibble(
+  x = rep(x_seq, 2),
+  density = c(normal_curve_8$density, normal_curve_12$density),
+  SD = rep(c("σ = 8 (kleinere spreiding)", "σ = 12 (werkelijke spreiding)"), each = length(x_seq))
+)
+
+ggplot(comparison_data, aes(x = x, y = density, color = SD, linetype = SD)) +
+  geom_line(size = 1.1) +
+  theme_minimal() +
+  scale_color_manual(values = c("σ = 8 (kleinere spreiding)" = "#ADA601", "σ = 12 (werkelijke spreiding)" = "red")) +
+  scale_linetype_manual(values = c("σ = 8 (kleinere spreiding)" = "solid", "σ = 12 (werkelijke spreiding)" = "solid")) +
+  labs(
+    title = "Effect van een kleinere standaardafwijking",
+    x = "Score",
+    y = "Dichtheid",
+    color = NULL,
+    linetype = NULL
+  ) +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title = element_text(size = 12),
+    legend.position = "top"
+  )
+```
+:::
+
+Zie je het verschil? Met een σ van slechts 8 punten wordt de curve veel puntige — de scores zouden zich veel nauwer rond 65 concentreren. En het omgekeerde:
+
+@cr-compare-sd-large
+
+::: {#cr-compare-sd-large}
+```{r warning=F, echo=F, message=F}
+comparison_data_large <- tibble(
+  x = rep(x_seq, 2),
+  density = c(normal_curve_16$density, normal_curve_12$density),
+  SD = rep(c("σ = 16 (grotere spreiding)", "σ = 12 (werkelijke spreiding)"), each = length(x_seq))
+)
+
+ggplot(comparison_data_large, aes(x = x, y = density, color = SD, linetype = SD)) +
+  geom_line(size = 1.1) +
+  theme_minimal() +
+  scale_color_manual(values = c("σ = 16 (grotere spreiding)" = "#DDCC77", "σ = 12 (werkelijke spreiding)" = "red")) +
+  scale_linetype_manual(values = c("σ = 16 (grotere spreiding)" = "solid", "σ = 12 (werkelijke spreiding)" = "solid")) +
+  labs(
+    title = "Effect van een grotere standaardafwijking",
+    x = "Score",
+    y = "Dichtheid",
+    color = NULL,
+    linetype = NULL
+  ) +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title = element_text(size = 12),
+    legend.position = "top"
+  )
+```
+:::
+
+Met σ = 16 wordt de curve veel platter en breder. Meer studenten krijgen lagere of hogere scores, en minder zitten rond het gemiddelde. De standaardafwijking bepaalt dus de **schaal** van de verdeling.
+
+**De empirische regel: 68-95-99.7.** Er is een fraai patroon in de normale verdeling dat zeer handig is om te onthouden. Ongeacht wat μ en σ zijn:
+
+| {#cr-empirical-rule}
+| **68% van de waarnemingen** ligt binnen [±1 standaardafwijking van het gemiddelde]{#cr-1sd},
+|
+| **95% van de waarnemingen** ligt binnen [±2 standaardafwijkingen van het gemiddelde]{#cr-2sd}, en
+|
+| **99.7% van de waarnemingen** ligt binnen [±3 standaardafwijkingen van het gemiddelde]{#cr-3sd}.
+
+[@cr-empirical-rule]{highlight="cr-1sd"}
+
+Laat ons dit visualiseren met onze examenscores:
+
+@cr-empirical-1sd
+
+::: {#cr-empirical-1sd}
+```{r warning=F, echo=F, message=F}
+ggplot(empirical_data, aes(x = x, y = density, fill = within_1sd)) +
+  geom_area(alpha = 0.6) +
+  scale_fill_manual(values = c("Ja" = "#117733", "Nee" = "#DDCC77"), name = NULL) +
+  geom_vline(xintercept = c(mean_val - sd_val, mean_val + sd_val), color = "darkblue", linetype = "dashed", size = 0.8) +
+  annotate("text", x = mean_val, y = 0.025, label = "68% hier", color = "white", size = 5, fontface = "bold") +
+  theme_minimal() +
+  labs(
+    title = "68% van de scores liggen tussen 53 en 77 (μ ± 1σ)",
+    x = "Score",
+    y = "Dichtheid"
+  ) +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title = element_text(size = 12),
+    legend.position = "none"
+  )
+```
+:::
+
+Mooi! Het groene gebied toont alle scores tussen μ - σ en μ + σ, dus tussen 53 en 77. Ongeveer 68% van alle studenten scoort hier.
+
+[@cr-empirical-rule]{highlight="cr-2sd"}
+
+En nu kijken we naar ±2 standaardafwijkingen:
+
+@cr-empirical-2sd
+
+::: {#cr-empirical-2sd}
+```{r warning=F, echo=F, message=F}
+ggplot(empirical_data, aes(x = x, y = density, fill = within_2sd)) +
+  geom_area(alpha = 0.6) +
+  scale_fill_manual(values = c("Ja" = "#117733", "Nee" = "#DDCC77"), name = NULL) +
+  geom_vline(xintercept = c(mean_val - 2*sd_val, mean_val + 2*sd_val), color = "darkblue", linetype = "dashed", size = 0.8) +
+  annotate("text", x = mean_val, y = 0.020, label = "95% hier", color = "white", size = 5, fontface = "bold") +
+  theme_minimal() +
+  labs(
+    title = "95% van de scores liggen tussen 41 en 89 (μ ± 2σ)",
+    x = "Score",
+    y = "Dichtheid"
+  ) +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title = element_text(size = 12),
+    legend.position = "none"
+  )
+```
+:::
+
+Nu zien we het bereik van μ - 2σ tot μ + 2σ (dus 41 tot 89). Bijna alle studenten (95%) scoren hier.
+
+[@cr-empirical-rule]{highlight="cr-3sd"}
+
+En tot slot, ±3 standaardafwijkingen:
+
+@cr-empirical-3sd
+
+::: {#cr-empirical-3sd}
+```{r warning=F, echo=F, message=F}
+ggplot(empirical_data, aes(x = x, y = density, fill = within_3sd)) +
+  geom_area(alpha = 0.6) +
+  scale_fill_manual(values = c("Ja" = "#117733", "Nee" = "#DDCC77"), name = NULL) +
+  geom_vline(xintercept = c(mean_val - 3*sd_val, mean_val + 3*sd_val), color = "darkblue", linetype = "dashed", size = 0.8) +
+  annotate("text", x = mean_val, y = 0.015, label = "99.7% hier", color = "white", size = 5, fontface = "bold") +
+  theme_minimal() +
+  labs(
+    title = "99.7% van de scores liggen tussen 29 en 101 (μ ± 3σ)",
+    x = "Score",
+    y = "Dichtheid"
+  ) +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    axis.title = element_text(size = 12),
+    legend.position = "none"
+  )
+```
+:::
+
+Met ±3σ (29 tot 101) vangen we praktisch iedereen: 99.7%. Uitersten zijn zeldzaam!
+
+Dit patroon — 68-95-99.7 — is universeel. Of je nu kijkt naar lichaamslengtes, IQ-scores, meetfouten in een laboratorium, of wat dan ook: als de data normaal verdeeld is, dan zullen deze percentages altijd waar zijn.
+
+Dit is waarom statistici zo gek zijn op de normale verdeling: eenvoudig, voorspelbaar, en overal aanwezig. Met slechts twee getallen — het gemiddelde μ en de standaardafwijking σ — kun je de gehele verdeling en alle kansen begrijpen.
+
+| {#cr-summary}
+| **Samengevat:**
+|
+| De normale verdeling wordt bepaald door:
+| - **μ (gemiddelde)**: bepaalt het middelpunt
+| - **σ (standaardafwijking)**: bepaalt de breedte/vorm
+|
+| En de magische regel 68-95-99.7 geeft ons meteen intuïtie over waar waarnemingen waarschijnlijk liggen.
+
+::::::::::::::
+
+Goed gedaan! Je hebt nu een solide begrip van wat de normale verdeling is, hoe deze eruitziet, en waarom de standaardafwijking zo belangrijk is. Deze inzichten zul je telkens opnieuw gebruiken in je statistiekstudies.
