@@ -18,7 +18,8 @@ Dit contactmoment hebben we het over:
 
 ## Lesmateriaal
 
-![](/images/icons/zz_slides.png){width="30"} [Slides Contactmoment 5]
+![](/images/icons/zz_slides.png){width="30"} [Slides Contactmoment 5](/PPT_STATB/Sta%20B_2026_C5_dummy_interactie.pptx)
+
 ![](/images/icons/data.png){width="30"} [Dataset "dataHO.RData" (uit de slides)](/Contactmomenten/dataHO.RData)
 
 ![](/images/icons/zz_video_camera.png){width="30"} [Lesopname (terug te vinden op Blackboard)]
