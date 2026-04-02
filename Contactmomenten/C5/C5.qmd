@@ -22,7 +22,7 @@ Dit contactmoment hebben we het over:
 
 ![](/images/icons/data.png){width="30"} [Dataset "dataHO.RData" (uit de slides)](/Contactmomenten/dataHO.RData)
 
-![](/images/icons/zz_video_camera.png){width="30"} [Lesopname (terug te vinden op Blackboard)]
+![](/images/icons/zz_video_camera.png){width="30"} [Lesopname (terug te vinden op Blackboard)](https://mediasite.uantwerpen.be/Mediasite/Play/f521971149ba43bfa6a5ff4d450786e71d)
 
 ![](/images/icons/guided-practice.png){width="30"} [Opdrachten computer lab](/Contactmomenten/C5/Opdrachten_C5.qmd)
 
